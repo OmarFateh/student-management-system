@@ -1,0 +1,43 @@
+{% load announcement_tags %}
+
+
+<!-- timeline time label -->
+{% for announcement in announcements %}
+{% ifchanged %}
+<div class="time-label">
+    <span class="bg-green">{{ announcement.created_at|date }}</span>
+</div>
+{% endifchanged %}
+<!-- /.timeline-label -->
+<!-- timeline item -->
+<div>
+    <i class="fas fa-user bg-blue"></i>
+    <div class="timeline-item">
+        <span class="time"><i class="fas fa-clock"></i>
+            {{ announcement.created_at|timesince|rounded_timesince:',' }}</span>
+        <h3 class="timeline-header">
+            <a href="#">
+                {% if announcement.is_adminhod %}
+                {{ announcement.adminhod }}
+                {% else %}
+                {{ announcement.staff }}
+                {% endif %}
+            </a>
+            {{ announcement.header }}
+        </h3>
+
+        <div class="timeline-body">
+            {% if announcement.content|length > 10 %}
+                {{ announcement.content|slice:":10" }}
+                <span id="dots{{ announcement.id }}">.....</span>
+                <span id="more{{ announcement.id }}" style="display: none;">{{ announcement.content|slice:"10:" }}</span>
+                <a class="btn btn-link text-primary btn-sm" id="readmore{{ announcement.id }}" style="cursor: pointer; font-weight: 500;" onclick="readMoreFunction({{ announcement.id }})">Read more</a>
+            {% else %}
+                {{ announcement.content }}
+            {% endif %}
+        </div>
+        
+    </div>
+</div>
+<!-- END timeline item -->
+{% endfor %}

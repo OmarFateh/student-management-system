@@ -1,0 +1,106 @@
+{% load static %}
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.js' %}"></script>
+
+<script>
+    /* Constants */
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000
+    });
+    
+    var CourseId = '';
+
+    // Filter by Course
+    $(document).on("click", "#staff-contacts-students-filter", function () {
+        CourseId = $('#staff-contacts-students-filter-by-course').val();
+        $('#staff-contact-students-search').val("");
+
+        $.ajax({
+        url: '{% url "contact-staff:ajax-filter-staff-contacts-students" %}',
+        type: 'POST',
+        data: { course_id: CourseId },
+        })
+
+        .done(function (data) {
+            $("#partial-staff-contact-students").html(data.html_students_list);
+        })
+        .fail(function () {
+            Toast.fire({
+            type: 'error',
+            title: 'Error in filtering data. Please try again.'
+            })
+        })
+    });
+
+    // Search by Name or Email
+    $(document).on("keyup", "#staff-contact-students-search", function () {
+        var search = $(this).val();
+        $('#staff-contacts-students-filter-by-course').val("");
+
+        $.ajax({
+        url: '{% url "contact-staff:staff-contacts-students" %}',
+        type: 'GET',
+        data: { search: search },
+        })
+
+        .done(function (data) {
+            $("#partial-staff-contact-students").html(data.html_students_list);
+        })
+        .fail(function () {
+            Toast.fire({
+            type: 'error',
+            title: 'Error in filtering data. Please try again.'
+            })
+        })
+    });
+
+    // Pagination
+    $(document).on("click", "ul.pagination li button", function (e) {
+        e.preventDefault();
+        var pageNumber = $(this).attr('data-href');
+        var search = $("#staff-contact-students-search").val();
+        CourseIdPagination = '';
+        if (CourseId) {
+        CourseIdPagination = CourseId;
+        }
+        
+        $.ajax({
+        url: '{% url "contact-staff:ajax-paginate-staff-contacts-students" %}',
+        type: 'GET',
+        data: { page: pageNumber, search: search, course_id: CourseIdPagination },
+        })
+
+        .done(function (data) {
+            $("#partial-staff-contact-students").html(data.html_students_list);
+            $('.loading').show();
+            $('.loading').delay(500).hide(0);
+        })
+        .fail(function () {
+            Toast.fire({
+            type: 'error',
+            title: 'Error in filtering data. Please try again.'
+            })
+        })
+    });
+
+</script>

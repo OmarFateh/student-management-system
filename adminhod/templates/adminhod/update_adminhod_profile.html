@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Edit Profile</title>
+{% endblock title %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            {% include 'adminhod/dashboard_includes/left_navbar.html' %}
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+        
+                <!-- Notifications Dropdown Menu -->
+                {% include 'adminhod/dashboard_includes/notifications_dropdown.html' %}
+
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        {% include 'adminhod/dashboard_includes/main_sidebar.html' %}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Edit Profile</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="{% url 'adminhod:dashboard' %}">Home</a></li>
+                                <li class="breadcrumb-item active">Edit Profile</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Edit Profile</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <!-- Display success message -->
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        {% if 'update-adminhod-profile' in message.tags %}
+                                            <div class='alert alert-success message mt-2'>{{ message }}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}  
+                                <!-- form start -->
+                                <form role="form" action='.' method='POST'>
+                                    {% csrf_token %}
+                                    <div class="card-body">
+                                        <div class="form-group">
+                                            <label>Full name</label>
+                                            {{ user_form.full_name.errors }}
+                                            {{ user_form.full_name }}
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Email address</label>
+                                            <div class="js-validate-email-error text-red" role="alert" style="display: none;">
+                                            </div>
+                                            {{ user_form.email.errors }}
+                                            {{ user_form.email }}
+                                        </div>
+                                    </div>    
+                                    <div class="card-footer d-flex justify-content-end">
+                                        <button type="submit" name='save' id='update-adminhod-profile' class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Footer Container -->
+        {% include 'adminhod/dashboard_includes/footer.html' %}
+
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- scripts -->
+    {% include 'adminhod/scripts_includes/update_adminhod_profile_js.html' %}
+
+</body>
+
+{% endblock content %}

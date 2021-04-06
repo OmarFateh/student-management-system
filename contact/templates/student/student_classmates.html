@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load staff_tags %}
+
+{% block title %}
+<title>Student Contacts</title>
+{% endblock title %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            {% include 'student/dashboard_includes/left_navbar.html' %}
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                <!-- Notifications Dropdown Menu -->
+                {% include 'student/dashboard_includes/notifications_dropdown.html' %}
+
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        {% include 'student/dashboard_includes/main_sidebar.html' %}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Student Contacts</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="{% url 'student:dashboard' %}">Home</a></li>
+                                <li class="breadcrumb-item active">Contacts</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="card card-solid" style='width: 100%;'>
+                    <div class="d-flex align-items-center justify-content-between flex-wrap">
+                        <!-- Search  -->
+                        <div class="card-tools d-flex flex-grow-1 flex-md-grow-0 mx-1 mr-lg-2 my-2 my-lg-2 ml-md-auto"
+                            style="min-width: 280px; min-height: 38px;">
+                            <div class="input-group input-group-sm">
+                                <input type="text" name="table_search" class="form-control float-right"
+                                    style="height: 100%;" id='student-classmates-search' placeholder="Search by Name or Email">
+
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-default"><i
+                                            class="fas fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="partial-student-classmates">
+                    {% include 'student/includes/partial_student_classmates.html' %}
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Footer Container -->
+        {% include 'adminhod/dashboard_includes/footer.html' %}
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- scripts -->
+    {% include 'student/scripts_includes/student_classmates_js.html' %}
+
+</body>
+
+{% endblock content %}

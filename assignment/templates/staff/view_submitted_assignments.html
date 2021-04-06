@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>Assignments</title>
+{% endblock title %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            {% include 'staff/dashboard_includes/left_navbar.html' %}
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+                
+                <!-- Notifications Dropdown Menu -->
+                {% include 'staff/dashboard_includes/notifications_dropdown.html' %}
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        {% include 'staff/dashboard_includes/main_sidebar.html' with assignment=assignment %}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Assignments</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="{% url 'staff:dashboard' %}">Home</a></li>
+                                <li class="breadcrumb-item active">Assignments</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-solid" style='width: 100%;'>
+                                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                    <!-- Filter  -->
+                                    {% if assignment.allow_submission_after_deadline %}
+                                    <div class='d-flex flex-wrap flex-grow-1'>
+                                        <select class="custom-select d-flex flex-grow-1 flex-md-grow-0 m-1 m-lg-2"
+                                            style="width: auto;" name='is-submitted' id='assignments-filter-by-submission'>
+                                            <option value="" selected>Sort by Submission</option>
+                                            <option value='before'>Before Deadline</option>
+                                            <option value='after'>After Deadline</option>
+                                        </select>    
+                                        <div class="btn-group d-flex flex-grow-1 flex-md-grow-0 m-1 m-lg-2">
+                                            <button type="submit" name='filter' class="btn btn-default"
+                                            id='assignments-filter'>Filter</button>
+                                        </div>
+                                    </div>
+                                    {% endif %}
+                                    <!-- Search  -->
+                                    <div class="card-tools d-flex flex-grow-1 flex-md-grow-0 mx-1 mx-lg-2 my-3 my-lg-2"
+                                        style="min-width: 280px; min-height: 38px;">
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" name="table_search" class="form-control float-right"
+                                                style="height: 100%;" id='assignment-search' placeholder="Search by Name or Submission Date 'yyyy-mm-dd'">
+
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-default"><i
+                                                        class="fas fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">{{ assignment.subject}} | {{ assignment.deadline_date }}</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <div class="card-body table-responsive p-0">
+                                    <table class="table table-hover text-nowrap" id='assignment-table'>
+                                        <thead>
+                                            <tr>
+                                                <th class='text-center'>Name</th>
+                                                <th class='text-center'>Submitted on</th>
+                                                <th class='text-center'>Download</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% include 'staff/includes/partial_submitted_assignments_list.html' %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                                <div id='assignment-paginator'>
+                                    {% include 'adminhod/includes/partial_assignment_pagination.html' %}
+                                </div>
+                                <!-- /.card-footer -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Footer Container -->
+        {% include 'adminhod/dashboard_includes/footer.html' %}
+       
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- scripts -->
+    {% include 'staff/scripts_includes/view_submitted_assignments_js.html' with assignment=assignment %}
+
+</body>
+
+{% endblock content %}

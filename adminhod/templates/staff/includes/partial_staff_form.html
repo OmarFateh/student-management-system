@@ -1,0 +1,119 @@
+<div class="card-body">
+    <div class="form-group">
+        <label>Full name</label>
+        {{ user_form.full_name.errors }}
+        {{ user_form.full_name }}
+    </div>
+    <div class="form-group">
+        <label>Email address</label>
+        <div class="js-validate-email-error text-red" role="alert" style="display: none;">
+        </div>
+        {{ user_form.email.errors }}
+        {{ user_form.email }}
+    </div>
+    {% if not is_update %}
+    <div class="form-group">
+        <label>Confirm email address</label>
+        {{ user_form.email2.errors }}
+        {{ user_form.email2 }}
+    </div>
+    {% endif %}
+    <div class="form-group nationality">
+        <label>Nationality</label>
+        {{ form.nationality.errors }}
+        <div class="d-flex align-items-center">
+            {{ form.nationality }}
+            <style>
+                .nationality {
+                    position: relative;
+                }
+                .nationality select {
+                padding-left: 28px;
+                }
+                .country-select-flag {
+                    position: absolute;
+                    left: 5px;
+                    bottom: 12.5px;
+                }
+            </style>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Address</label>
+        {{ form.address.errors }}
+        {{ form.address }}
+    </div>
+    <div class="form-group">
+        <label>Phone</label>
+        {{ form.phone.errors }}
+        {{ form.phone }}
+    </div>
+    <div class="form-group">
+        <label>Gender</label>
+        {{ form.gender }}
+    </div>
+    <!-- /.form-group -->
+    <div class="form-group">
+        <label>Birth date</label>
+        {{ form.birth_date.errors }}
+        <div class="input-group date">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="far fa-calendar-alt"></i>
+                </span>
+            </div>
+            {{ form.birth_date }}
+        </div>
+        <!-- /.input group -->
+    </div>
+    <!-- /.form group -->
+    {% if is_admin %}
+    <div class="form-group">
+        <label>Recruitment date</label>
+        {{ form.recruitment_date.errors }}
+        <div class="input-group date">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="far fa-calendar-alt"></i>
+                </span>
+            </div>
+            {{ form.recruitment_date }}
+        </div>
+        <!-- /.input group -->
+    </div>
+    {% endif %}
+    <!-- /.form group -->
+    {% if is_update %}
+    <div class="form-group">
+        <label>Education</label>
+        {{ form.education.errors }}
+        {{ form.education }}
+    </div>
+    <!-- /.form-group -->
+    <div class="form-group">
+        <label>Skills</label>
+        {{ form.skills.errors }}
+        {{ form.skills }}
+    </div>
+    {% endif %}
+    <!-- /.form group -->
+    <div class="form-group">
+        <label>Photo</label>
+        {{ form.photo.errors }}
+        <div class="input-group">
+            <div class="custom-file">
+                <!-- <input type="file" class="custom-file-input" id="fileInputStaff" name="photo" required> -->
+                <!-- {% if not is_update %} required {% endif %}> -->
+                {{ form.photo }}
+                <label class="custom-file-label" for="fileInputStaff">
+                    {% if form.instance.photo %}
+                    {{ form.instance.filename }}
+                    {% else %}
+                    No file selected
+                    {% endif %}
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.card-body -->

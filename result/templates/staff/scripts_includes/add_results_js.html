@@ -1,0 +1,206 @@
+{% load static %}
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Moment -->
+<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.js' %}"></script>
+
+
+<script>
+    /* Constants */
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000
+    });
+
+    $(document).ready(function () {
+        /* Add results */
+        // fetch students
+        $(document).on("click", "#fetch-student-results", function () {
+            var subject = $('#results-subject').val();
+            var sessionYear = $('#results-session').val();
+
+            $.ajax({
+                url: '{% url "result-staff:ajax-fetch-students-results" %}',
+                type: 'POST',
+                data: { subject: subject, session_year: sessionYear },
+            })
+                .done(function (response) {
+                    var json_data = JSON.parse(response);
+                    var div_data = "<div class='form-group'><label>Students list</label>";
+                    div_data +="<select class='form-control' name='results-students-list' id='results-students-list'>";
+                    for (key in json_data) {
+                        div_data+="<option value='" + json_data[key]['id'] + "'>" + json_data[key]['name'] + "</option>";
+                    }
+                    div_data += "</select></div>";
+                    div_data += "<div class='form-group'><div class='row'>";
+                    
+                    div_data += "<div class='col-lg-6'>";
+                    div_data += "<label>Assignment no.1</label>";
+                    div_data += "<input type='number' name='assignment_one_marks'";
+                    if (json_data[0].assignment_one_marks){
+                        div_data += " value='" + json_data[0].assignment_one_marks + "'";
+                    } 
+                    div_data += "class='form-control' id='assignment-one-marks' placeholder='Assignment no.1 marks in numbers'>";    
+                    div_data += "</div>";
+
+                    div_data += "<div class='col-lg-6'>";
+                    div_data += "<label>Assignment no.2</label>";
+                    div_data += "<input type='number' name='assignment_two_marks'";
+                    if (json_data[0].assignment_two_marks){
+                        div_data += " value='" + json_data[0].assignment_two_marks + "'";
+                    }  
+                    div_data += "class='form-control' id='assignment-two-marks' placeholder='Assignment no.2 marks in numbers'>";    
+                    div_data += "</div>";
+
+                    div_data += "<div class='col-lg-6 mt-2'>";
+                    div_data += "<label>Assignment no.3</label>";
+                    div_data += "<input type='number' name='assignment_three_marks'";
+                    if (json_data[0].assignment_three_marks){
+                        div_data += " value='" + json_data[0].assignment_three_marks + "'";
+                    }  
+                    div_data += "class='form-control' id='assignment-three-marks' placeholder='Assignment no.3 marks in numbers'>";    
+                    div_data += "</div>";
+
+                    div_data += "<div class='col-lg-6 mt-2'>";
+                    div_data += "<label>Assignment no.4</label>";
+                    div_data += "<input type='number' name='assignment_four_marks'";
+                    if (json_data[0].assignment_four_marks){
+                        div_data += " value='" + json_data[0].assignment_four_marks + "'";
+                    }  
+                    div_data += "class='form-control' id='assignment-four-marks' placeholder='Assignment no.4 marks in numbers'>";    
+                    div_data += "</div>";
+
+                    div_data += "<div class='col-lg-6 mt-2'>";
+                    div_data += "<label>Assignment no.5</label>";
+                    div_data += "<input type='number' name='assignment_five_marks'";
+                    if (json_data[0].assignment_five_marks){
+                        div_data += " value='" + json_data[0].assignment_five_marks + "'";
+                    }  
+                    div_data += "class='form-control' id='assignment-five-marks' placeholder='Assignment no.5 marks in numbers'>";    
+                    div_data += "</div>";
+
+                    div_data += "<div class='col-lg-6 mt-2'>";
+                    div_data += "<label>Final Exam</label>";
+                    div_data += "<input type='number' name='final_exam_marks'";
+                    if (json_data[0].final_exam_marks){
+                        div_data += " value='" + json_data[0].final_exam_marks + "'";
+                    }  
+                    div_data += "class='form-control' id='final-exam-marks' placeholder='Final exam marks in numbers'>";    
+                    div_data += "</div>";
+                    
+                    div_data += "</div></div>";
+                    div_data += "<div class='form-group'>";
+                    div_data += "<button name='save-results' class='btn btn-success btn-block' id='save-results'>Save Results</button>"
+                    div_data += "</div>";
+                    $('#student-results-data').html(div_data)
+                    $('#student-results-data').show();
+                })
+                .fail(function () {
+                    Toast.fire({
+                        type: 'error',
+                        title: 'Error in fetching students. Please try again.'
+                    })
+                })
+
+            // fetch student initial results
+            $(document).on("change", "#results-students-list", function () {
+                var studentId = $(this).val();
+                var subjectId = $('#results-subject').val();
+                
+                $.ajax({
+                    url: '{% url "result-staff:ajax-fetch-students-initial-results" %}',
+                    type: 'POST',
+                    data: { student_id: studentId, subject_id: subjectId },
+                })
+
+                    .done(function (response) {
+                        var json_data = JSON.parse(response);
+                        if (json_data.length > 0){
+                            $('#assignment-one-marks').val(json_data[0].assignment_one_marks);
+                            $('#assignment-two-marks').val(json_data[0].assignment_two_marks);
+                            $('#assignment-three-marks').val(json_data[0].assignment_three_marks);
+                            $('#assignment-four-marks').val(json_data[0].assignment_four_marks);
+                            $('#assignment-five-marks').val(json_data[0].assignment_five_marks);
+                            $('#final-exam-marks').val(json_data[0].final_exam_marks);
+                        }
+                        else {
+                            $('#assignment-one-marks').val("");
+                            $('#assignment-two-marks').val("");
+                            $('#assignment-three-marks').val("");
+                            $('#assignment-four-marks').val("");
+                            $('#assignment-five-marks').val("");
+                            $('#final-exam-marks').val("");
+                        }
+                    })
+                    .fail(function () {
+                        Toast.fire({
+                            type: 'error',
+                            title: 'Error in fetching results data. Please try again.'
+                        })
+                    })
+            });        
+            // save results
+            $(document).on("click", "#save-results", function () {
+                var studentId = $('#results-students-list').val();
+                var subjectId = $('#results-subject').val();
+                var sessionYearId = $('#results-session').val();
+                var assignment1 = $('#assignment-one-marks').val();
+                var assignment2 = $('#assignment-two-marks').val();
+                var assignment3 = $('#assignment-three-marks').val();
+                var assignment4 = $('#assignment-four-marks').val();
+                var assignment5 = $('#assignment-five-marks').val();
+                var finalExam = $('#final-exam-marks').val();
+                
+                $.ajax({
+                    url: '{% url "result-staff:ajax-save-results" %}',
+                    type: 'POST',
+                    data: { student_id: studentId, subject_id: subjectId, session_year_id: sessionYearId,
+                        assignment_one_marks: assignment1, assignment_two_marks: assignment2, 
+                        assignment_three_marks: assignment3, assignment_four_marks: assignment4,
+                        assignment_five_marks: assignment5, final_exam_marks: finalExam,
+                    },
+                })
+                    .done(function (response) {
+                        if (response == 'OK') {
+                            $("#success-save-results").html("Results has been saved successfully.");
+                            $("#success-save-results").show();
+                            setTimeout(function () { $('.message').fadeOut('slow'); }, 2000); // <-- time in milliseconds, 1000 =  1 sec
+                        }
+                        else {
+                            $("#error-save-results").html("Error in saving results data. Please try again.");
+                            $("#error-save-results").show();
+                            setTimeout(function () { $('.message').fadeOut('slow'); }, 2000);
+                        }
+                        // $('#student-results-data').hide();
+                    })
+                    .fail(function () {
+                        Toast.fire({
+                            type: 'error',
+                            title: 'Error in saving results data. Please try again.'
+                        })
+                    })
+            });
+        });
+
+    });
+
+</script>

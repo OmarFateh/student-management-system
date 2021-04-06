@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load staff_tags %}
+{% load feed_tags %}
+
+{% block title %}
+<title>{{ post.user.full_name|title }} | Post</title>
+{% endblock title %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            {% if request.user.staff %}
+                {% include 'staff/dashboard_includes/left_navbar.html' %}
+            {% elif request.user.student %}
+                {% include 'student/dashboard_includes/left_navbar.html' %}
+            {% endif %}
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+
+                <!-- Notifications Dropdown Menu -->
+                {% if request.user.staff %}
+                    {% include 'staff/dashboard_includes/notifications_dropdown.html' %}
+                {% elif request.user.student %}
+                    {% include 'student/dashboard_includes/notifications_dropdown.html' %}
+                {% endif %}
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        {% if request.user.student %}
+            {% include 'student/dashboard_includes/main_sidebar.html' %}
+        {% elif request.user.staff %}
+            {% include 'staff/dashboard_includes/main_sidebar.html' %}
+        {% endif %}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Post</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                {% if request.user.student %}
+                                <li class="breadcrumb-item"><a href="{% url 'student:dashboard' %}">Home</a></li>
+                                {% elif request.user.staff %}
+                                <li class="breadcrumb-item"><a href="{% url 'staff:dashboard' %}">Home</a></li>
+                                {% endif %}                                
+                                <li class="breadcrumb-item active">Post</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">   
+                        <div class="card card-solid w-100">
+                            <div class="card-body pb-4" id='partial-post-detail'>
+                                {% include 'posts/includes/partial_post_detail.html' %}
+                            </div> 
+                        </div>       
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Post Modal -->
+        <div class="modal fade" id="modal-post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <!-- Footer Container -->
+        {% include 'adminhod/dashboard_includes/footer.html' %}
+
+    </div>
+    <!-- ./wrapper -->
+
+</body>
+
+{% endblock content %}

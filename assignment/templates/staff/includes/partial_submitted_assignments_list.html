@@ -1,0 +1,16 @@
+{% for assignment in assignments %}
+<tr>
+    <td class='text-center'>{{ assignment.student.user.full_name }}</td>
+    <td class='text-center'>{{ assignment.created_at }}</td>
+    <td class='text-center'>
+        <div class="btn-group btn-group-sm">
+            <a href="{{ assignment.document.url }}" class="btn btn-success" download> <i
+                    class="fas fa-cloud-download-alt"></i></a>
+        </div>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="3" class="text-center bg-warning"><b>No Assignments</b></td>
+</tr>
+{% endfor %}

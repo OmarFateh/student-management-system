@@ -1,0 +1,32 @@
+{% load pagination_tags %}
+
+{% if feedbacks.has_other_pages %}
+<div class="card-footer">
+    <nav aria-label="Contacts Page Navigation">
+        <ul class="pagination justify-content-center m-0">
+            {% if feedbacks.has_previous %}
+            <li class="page-item">
+                <button class="page-link"
+                    data-href="{% relative_url feedbacks.previous_page_number request.GET.urlencode %}">&laquo;</button>
+            </li>
+            {% endif %}
+            {% for i in feedbacks.paginator.page_range %}
+            {% if feedbacks.number == i %}
+            <li class="page-item active"><button class="page-link"
+                    data-href="{% relative_url i request.GET.urlencode %}">{{ i }}</button></li>
+            {% elif i > feedbacks.number|add:'-3' and i < feedbacks.number|add:'3' %}
+            <li class="page-item"><button class="page-link"
+                    data-href="{% relative_url i request.GET.urlencode %}">{{ i }}</button></li>
+
+            {% endif %}
+            {% endfor %}
+            {% if feedbacks.has_next %}
+            <li class="page-item">
+                <button class="page-link"
+                    data-href="{% relative_url feedbacks.next_page_number request.GET.urlencode %}">&raquo;</button>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endif %}

@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load staff_tags %}
+{% load feed_tags %}
+
+{% block title %}
+<title>Community | Feed</title>
+{% endblock title %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            {% include 'staff/dashboard_includes/left_navbar.html' %}
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+
+                <!-- Notifications Dropdown Menu -->
+                {% include 'staff/dashboard_includes/notifications_dropdown.html' %}
+
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        {% include 'staff/dashboard_includes/main_sidebar.html' %}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Feed</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="{% url 'staff:dashboard' %}">Home</a></li>
+                                <li class="breadcrumb-item active">Feed</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="card card-solid" style='width: 100%;'>
+                            <div class="card-body pb-4">
+                                <div class="d-flex align-items-center">
+                                    <img src="{{ request.user.staff.photo.url }}" class="img-circle img-bordered-sm img-user-add-post" alt="User Image">
+                                    <div class="input-group input-group-sm pl-3" id='add-post'>
+                                        <input type="text" name="table_search" class="form-control float-right input-add-post" id='js-add-post' data-url="{% url 'posts:add-post' %}"
+                                                placeholder="What's on your mind, &nbsp {{ request.user.full_name|split:' '|first|title }}?" autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>    
+                        <div id='partial-post-list'>
+                            {% include 'posts/includes/partial_post_list.html' %}
+                        </div>    
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Post Modal -->
+        <div class="modal fade" id="modal-post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <!-- Footer Container -->
+        {% include 'adminhod/dashboard_includes/footer.html' %}
+
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- scripts -->
+    {% include 'staff/scripts_includes/staff_feed_js.html' %}
+
+</body>
+
+{% endblock content %}

@@ -1,0 +1,21 @@
+<!-- form start -->
+<form role="form" action='{% url "adminhod:update-session" form.instance.pk %}' method='POST' class="js-session-update-form"
+    data-validate-session-url="{% url 'adminhod:ajax-validate-session-update' form.instance.pk %}">
+    {% csrf_token %}
+    <!-- modal header -->
+    <div class="modal-header">
+        <h4 class="modal-title">Update Session</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- modal body -->
+    <div class="modal-body">
+        {% include 'session/includes/partial_session_form.html' %}
+    </div>
+    <!-- modal footer -->
+    <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" id='update-session'>Save changes</button>
+    </div>
+</form>

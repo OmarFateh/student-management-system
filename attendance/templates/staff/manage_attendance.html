@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>Manage Attendance</title>
+{% endblock title %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            {% include 'staff/dashboard_includes/left_navbar.html' %}
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+
+                <!-- Notifications Dropdown Menu -->
+                {% include 'staff/dashboard_includes/notifications_dropdown.html' %}
+
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        {% include 'staff/dashboard_includes/main_sidebar.html' %}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Manage Attendance</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="{% url 'staff:dashboard' %}">Home</a></li>
+                                <li class="breadcrumb-item active">Manage Attendance</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Manage Attendance</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <!-- Display success message -->
+                                <div class='alert alert-success message mt-2' id='success-update-attendance' style='display:none'></div>
+                                <!-- Display error message -->
+                                <div class='alert alert-danger message mt-2' id='error-update-attendance' style='display:none'></div>  
+                                <!-- form start -->
+                                <div class="card-body">
+                                    <div class="form-group">
+                                        <label>Subject</label>
+                                        <select class='form-control' name='subject' id='manage-attendance-subject'>
+                                            {% for subject in subjects %}
+                                            <option value='{{ subject.id }}'>{{ subject.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Session year</label>
+                                        <select class='form-control' name='session_year' id='manage-attendance-session'>
+                                            {% for session_year in session_years %}
+                                            <option value='{{ session_year.id }}'>{{ session_year }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button name='fetch-attendance-date' class="btn btn-primary btn-block" id='fetch-attendance-date'>Fetch Attendance Dates</button>
+                                    </div>
+                                    <div class="form-group " id="attendance-date-data" style="display:none;">
+                                        <label>Attendance Date</label>
+                                        <select class='form-control' name='attendance_date' id='manage-attendance-date'>
+                                            
+                                        </select>
+                                    </div>
+                                    <!-- Display no attendance data message -->
+                                    <div class='alert alert-warning text-center' id='no-attendance-date' style='display:none'></div>
+                                  
+                                    <div class="form-group" id='fetch-manage-students' style='display:none'>
+                                        <button name='fetch-manage-students' class="btn btn-primary btn-block" id='fetch-manage-students-btn'>Fetch Students</button>
+                                    </div>
+                                </div>            
+                                <div class="card-footer" id='manage-student-data' style='display:none'>
+
+                                </div>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Footer Container -->
+        {% include 'adminhod/dashboard_includes/footer.html' %}
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- scripts -->
+    {% include 'staff/scripts_includes/manage_attendance_js.html' %}
+
+</body>
+
+{% endblock content %}

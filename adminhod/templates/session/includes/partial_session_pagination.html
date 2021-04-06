@@ -1,0 +1,27 @@
+{% load pagination_tags %}
+
+{% if sessions.has_other_pages %}
+<div class="card-footer">
+    <nav aria-label="Contacts Page Navigation">
+        <ul class="pagination justify-content-center m-0">
+            {% if sessions.has_previous %}
+            <li class="page-item">
+                <button class="page-link" data-href="{% relative_url sessions.previous_page_number request.GET.urlencode %}">&laquo;</button>
+            </li>
+            {% endif %}
+            {% for i in sessions.paginator.page_range %}
+                {% if sessions.number == i %}
+                    <li class="page-item active"><button class="page-link" data-href="{% relative_url i request.GET.urlencode %}">{{ i }}</button></li>
+                {% elif i > sessions.number|add:'-3' and i < sessions.number|add:'3' %}
+                    <li class="page-item"><button class="page-link" data-href="{% relative_url i request.GET.urlencode %}">{{ i }}</button></li>
+                {% endif %}
+            {% endfor %}
+            {% if sessions.has_next %}
+            <li class="page-item">
+                <button class="page-link" data-href="{% relative_url sessions.next_page_number request.GET.urlencode %}">&raquo;</button>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+{% endif %}

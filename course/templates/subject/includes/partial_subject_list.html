@@ -1,0 +1,28 @@
+{% for subject in subjects %}
+<tr>
+    <td>{{ subject.name }}</td>
+    <td>{{ subject.code }}</td>
+    <td>{{ subject.course }}</td>
+    <td>{{ subject.staff.user.full_name }}</td>
+    <td>{{ subject.start_date }}</td>
+    <td>{{ subject.end_date }}</td>
+    <td>
+        <div class="btn-group btn-group-sm">
+            <button type="button"
+              class="btn btn-info js-update-subject"
+              data-url="{{ subject.get_update_absolute_url }}">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button type="button"
+              class="btn btn-danger js-delete-subject"
+              data-url="{{ subject.get_delete_absolute_url }}">
+              <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="8" class="text-center bg-warning"><b>No Subjects</b></td>
+</tr>
+{% endfor %}

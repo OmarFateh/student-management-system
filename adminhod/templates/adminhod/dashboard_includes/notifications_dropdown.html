@@ -1,0 +1,20 @@
+<li class="nav-item dropdown">
+    <a class="nav-link" data-toggle="dropdown" href="#">
+        <span class="font-weight-bold">Settings</span>
+        <i class="fas fa-user-cog ml-1"></i>
+    </a>
+    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+        <div class="dropdown-divider"></div>
+        <a href="{% url 'adminhod:update-adminhod-profile' %}" class="dropdown-item">
+            <i class="nav-icon fas fa-user mr-2"></i>  Edit Profile
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="{% url 'accounts:password-change' %}" class="dropdown-item">
+            <i class="nav-icon fas fa-lock mr-2"></i>  Change Password
+        </a>
+        <div class="dropdown-divider"></div>
+        <a href="{% url 'accounts:logout' %}" class="dropdown-item">
+            <i class="nav-icon fas fa-sign-out-alt mr-2"></i> LogOut
+        </a>
+    </div>
+</li>

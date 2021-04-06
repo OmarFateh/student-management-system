@@ -1,0 +1,49 @@
+<!-- modal header -->
+<div class="modal-header align-items-center">
+    <h4 class="modal-title">
+        <span class="text-primary text-md">
+            <i class="far fa-thumbs-up mr-1"></i>
+            {{ likes_count }}
+        </span>
+    </h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<!-- modal body -->
+<div class="modal-body">
+    {% for user in likes %}
+    <div class="user-block d-flex align-items-center justify-content-between w-100">
+        {% if user.staff %} 
+            <a href="{{ user.staff.get_absolute_url }}" class="d-flex align-items-center">
+                <img class="img-circle img-bordered-sm" src="{{ user.staff.photo.url }}" alt="user image">
+                <span class="username ml-2">
+                    {{ user.full_name|title }}
+                </span>
+            </a> 
+            {% if request.user != user %}        
+                <a href="{{ user.staff.get_absolute_url }}" type="button" class="btn btn-outline-primary">
+                    View Profile
+                </a>
+            {% endif %}     
+        {% elif user.student %} 
+            <a href="{{ user.student.get_absolute_url }}"  class="d-flex align-items-center">
+                <img class="img-circle img-bordered-sm" src="{{ user.student.photo.url }}" alt="user image">    
+                <span class="username ml-2">
+                    {{ user.full_name|title }}
+                </span>
+            </a>
+            {% if request.user != user %}        
+                <a href="{{ user.student.get_absolute_url }}" type="button" class="btn btn-outline-primary">
+                    View Profile
+                </a>
+            {% endif %}
+        {% endif %}
+    </div>
+    {% endfor %}
+    <!-- /.user-block -->
+</div>
+<!-- modal footer -->
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+</div>

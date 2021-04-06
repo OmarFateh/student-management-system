@@ -1,0 +1,25 @@
+{% for session in sessions %}
+<tr>
+    <td>{{ session }}</td>
+    <td>{{ session.start_date }}</td>
+    <td>{{ session.end_date }}</td>
+    <td>
+        <div class="btn-group btn-group-sm">
+            <button type="button"
+              class="btn btn-info js-update-session"
+              data-url="{{ session.get_update_absolute_url }}">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button type="button"
+              class="btn btn-danger js-delete-session"
+              data-url="{{ session.get_delete_absolute_url }}">
+              <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="8" class="text-center bg-warning"><b>No Sessions</b></td>
+</tr>
+{% endfor %}

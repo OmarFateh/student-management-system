@@ -1,0 +1,26 @@
+{% for course in courses %}
+<tr>
+    <td>{{ course.name }}</td>
+    <td>{{ course.code }}</td>
+    <td>{{ course.start_date }}</td>
+    <td>{{ course.end_date }}</td>
+    <td>
+        <div class="btn-group btn-group-sm">
+            <button type="button"
+              class="btn btn-info js-update-course"
+              data-url="{{ course.get_update_absolute_url }}">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button type="button"
+              class="btn btn-danger js-delete-course"
+              data-url="{{ course.get_delete_absolute_url }}">
+              <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="8" class="text-center bg-warning"><b>No Courses</b></td>
+</tr>
+{% endfor %}

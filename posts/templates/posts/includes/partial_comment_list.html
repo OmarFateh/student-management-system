@@ -1,0 +1,157 @@
+{% load post_tags %}
+
+<!-- comments list  -->
+{% for comment in post.parent_comments %}
+<div class="user-block comment-body">
+    {% if comment.user.staff %} 
+        <a href="{{ comment.user.staff.get_absolute_url }}">
+            <img class="img-circle img-bordered-sm" src="{{ comment.user.staff.photo.url }}" alt="user image">
+        </a>        
+    {% elif comment.user.student %} 
+        <a href="{{ comment.user.student.get_absolute_url }}">
+            <img class="img-circle img-bordered-sm" src="{{ comment.user.student.photo.url }}" alt="user image">    
+        </a>
+    {% endif %}        
+    <span class="username">
+        <a class="comment-user"
+        {% if comment.user.staff %} 
+            href="{{ comment.user.staff.get_absolute_url }}"
+        {% elif comment.user.student %} 
+            href="{{ comment.user.student.get_absolute_url }}"
+        {% endif %}>    
+        {{ comment.user.full_name|title }}
+        </a>
+        {% if comment.user == request.user %}
+        <a data-toggle="dropdown" href="#" class="float-right btn-tool comment-dropdown">
+            <span class="font-weight-bold">....</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <div class="dropdown-divider"></div>
+            <button type="button"
+                class="btn btn-link text-dark dropdown-item js-update-comment"
+                data-url="{{ comment.get_update_absolute_url }}"> 
+                <i class="nav-icon fas fa-edit mr-2"></i>  Edit
+            </button>    
+            <div class="dropdown-divider"></div>
+            <button type="button"
+                class="btn btn-link text-dark dropdown-item js-delete-comment"
+                data-url="{{ comment.get_delete_absolute_url }}"> 
+                <i class="nav-icon fas fa-trash mr-2"></i> Delete
+            </button>
+        </div>
+        {% endif %}
+    </span>
+    <span class="description comment-content mt-1">{{ comment.content }}</span>
+    <div class="description d-flex align-items-baseline mt-2">
+        <button type="button" value="{{ comment.id }}"
+            {% if comment.user in comment.likes.all %}
+            class="btn btn-link text-primary text-sm comment-like py-0 px-0 mr-2"
+            {% else %}
+            class="btn btn-link text-secondary text-sm comment-like py-0 px-0 mr-2"
+            {% endif %}
+            data-href='{{ comment.get_api_like_url }}'>
+            Like 
+        </button>
+        <button type="button" class="btn btn-link text-secondary text-sm comment-reply py-0 px-0 mr-2">
+            reply 
+        </button>
+        <span class="comment-timestamp">{{ comment.created_at|timesince|rounded_timesince:',' }}</span>
+        <button type="button" class="btn btn-link text-sm comment-likes py-0 px-0 ml-auto"
+            data-href='{{ comment.get_comment_likes_absolute_url }}'
+            {% if not comment.likes.count %} style="display: none;" {% endif %}>
+            <i class="far fa-thumbs-up mr-1"></i>
+            <span class="comment-like-count{{ comment.id }}">{{ comment.likes.count }}</span>
+        </button>
+    </div>
+    {% if comment.replies.count %}
+        <button type="button" class="btn btn-link text-secondary text-sm view-replies reply-hidden py-0 px-0 mt-1"
+            value='{{ comment.replies.count }}'>
+            View replies ({{ comment.replies.count }}) 
+        </button>
+    {% endif %}
+</div>
+
+<!-- replies list -->
+<div class="user-block reply-body pl-5" style="display: none;">
+    {% for reply in comment.replies.all %}
+    {% if reply.user.staff %} 
+        <a href="{{ reply.user.staff.get_absolute_url }}">
+            <img class="img-circle img-bordered-sm" src="{{ reply.user.staff.photo.url }}" alt="user image">
+        </a>        
+    {% elif reply.user.student %} 
+        <a href="{{ reply.user.student.get_absolute_url }}">
+            <img class="img-circle img-bordered-sm" src="{{ reply.user.student.photo.url }}" alt="user image">    
+        </a>
+    {% endif %}        
+    <span class="username">
+        <a class="comment-user"
+        {% if reply.user.staff %} 
+            href="{{ reply.user.staff.get_absolute_url }}"
+        {% elif reply.user.student %} 
+            href="{{ reply.user.student.get_absolute_url }}"
+        {% endif %}>    
+        {{ reply.user.full_name|title }}
+        </a>
+        {% if reply.user == request.user %}
+        <a data-toggle="dropdown" href="#" class="float-right btn-tool comment-dropdown">
+            <span class="font-weight-bold">....</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+            <div class="dropdown-divider"></div>
+            <button type="button"
+                class="btn btn-link text-dark dropdown-item js-update-comment"
+                data-url="{{ reply.get_update_absolute_url }}"> 
+                <i class="nav-icon fas fa-edit mr-2"></i>  Edit
+            </button>    
+            <div class="dropdown-divider"></div>
+            <button type="button"
+                class="btn btn-link text-dark dropdown-item js-delete-comment"
+                data-url="{{ reply.get_delete_absolute_url }}"> 
+                <i class="nav-icon fas fa-trash mr-2"></i> Delete
+            </button>
+        </div>
+        {% endif %}
+    </span>
+    <span class="description comment-content mt-1">{{ reply.content }}</span>
+    <div class="description d-flex align-items-baseline mt-2">
+        <button type="button" value="{{ reply.id }}"
+            {% if reply.user in reply.likes.all %}
+            class="btn btn-link text-primary text-sm comment-like py-0 px-0 mr-2"
+            {% else %}
+            class="btn btn-link text-secondary text-sm comment-like py-0 px-0 mr-2"
+            {% endif %}
+            data-href='{{ reply.get_api_like_url }}'>
+            Like 
+        </button>
+        <button type="button" class="btn btn-link text-secondary text-sm comment-reply py-0 px-0 mr-2" data-href='{{ reply.get_api_like_url }}'>
+            reply 
+        </button>
+        <span class="comment-timestamp">{{ reply.created_at|timesince|rounded_timesince:',' }}</span>
+        <button type="button" class="btn btn-link text-sm comment-likes py-0 px-0 ml-auto"
+            data-href='{{ reply.get_comment_likes_absolute_url }}'
+            {% if not reply.likes.count %} style="display: none;" {% endif %}>
+            <i class="far fa-thumbs-up mr-1"></i>
+            <span class="comment-like-count{{ reply.id }}">{{ reply.likes.count }}</span>
+        </button>
+    </div>
+    {% endfor %}
+</div>
+<!-- Add reply  -->
+<div class="add-reply" style="display: none;">
+    <div class="d-flex align-items-center w-100 pl-5 mb-3">
+        <img 
+        {% if request.user.staff %}
+        src="{{ request.user.staff.photo.url }}" 
+        {% elif request.user.student %}
+        src="{{ request.user.student.photo.url }}" 
+        {% endif %}
+        class="img-circle img-bordered-sm img-user-add-comment" alt="User Image">
+        <form role="form" action='{{ post.get_absolute_url }}' method='POST' class="js-comment-add-form d-flex align-items-center w-100" value="{{ comment.id }}">
+            {% csrf_token %}
+            <input type='hidden' name='comment_id' value='{{ comment.id }}'>
+            {% include 'posts/includes/partial_comment_form.html' %}
+            <button type="submit" class="btn btn-primary ml-2 publish-comment" disabled>Reply</button>
+        </form>      
+    </div>
+</div>        
+{% endfor %}

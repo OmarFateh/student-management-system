@@ -1,0 +1,176 @@
+{% load static %}
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Moment -->
+<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+<!-- daterangepicker -->
+<script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.js' %}"></script>
+
+
+<script>
+  /* Constants */
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 5000
+  });
+
+  // session update & delete
+  $(document).ready(function () {
+    //Date range picker
+    $('#id_date_range').daterangepicker();
+    // messages timeout for 5 sec
+    setTimeout(function () { $('.message').fadeOut('slow'); }, 5000); // <-- time in milliseconds, 1000 =  1 sec
+
+    /* Functions */
+    var loadForm = function () {
+      var btn = $(this);
+      $.ajax({
+        url: btn.attr("data-url"),
+        type: 'get',
+        dataType: 'json',
+        beforeSend: function () {
+          $("#modal-session").modal("show");
+        },
+        success: function (data) {
+          $("#modal-session .modal-content").html(data.html_form);
+          $('#id_date_range').daterangepicker()
+        }
+      });
+    };
+
+    var saveForm = function () {
+      var form = $(this);
+      $.ajax({
+        url: form.attr("action"),
+        data: form.serialize(),
+        type: form.attr("method"),
+        dataType: 'json',
+        success: function (data) {
+          if (data.form_is_valid) {
+            $("#session-table tbody").html(data.html_session_list);
+            $("#modal-session").modal("hide");
+            // const sessionName = data.session_name
+            if (data.is_update) {
+              // Update Toaster 
+              Toast.fire({
+                type: 'success',
+                title: ' Session has been updated successfully.'
+                // title: 'session "' + sessionName + '" has been updated successfully.'
+              })
+            }
+            else {
+              // Delete Toaster 
+              Toast.fire({
+                type: 'success',
+                title: ' Session has been deleted successfully.'
+                // title: 'session "' + sessionName + '" has been deleted successfully.'
+              })
+            }
+          }
+          else {
+            $("#modal-session .modal-content").html(data.html_form);
+          }
+        }
+      });
+      return false;
+    };
+    /* Binding */
+
+    // Update session
+    $("#session-table").on("click", ".js-update-session", loadForm);
+    $("#modal-session").on("submit", ".js-session-update-form", saveForm);
+
+    // Delete session
+    $("#session-table").on("click", ".js-delete-session", loadForm);
+    $("#modal-session").on("submit", ".js-session-delete-form", saveForm);
+  });
+
+  // ajax session validation
+  $(document).on("change", ".js-validate-session", function () {
+    var session = $(this).val();
+    var form = $(this).closest("form");
+
+    $.ajax({
+      url: form.attr("data-validate-session-url"),
+      type: 'GET',
+      data: { session: session },
+      success: function (data) {
+        if (data.is_session_taken) {
+          $('.js-validate-session-error').text(data.error_message).show()
+          $('#update-session').attr('disabled', 'disabled');
+        }
+        else {
+          $('.js-validate-session-error').hide();
+          $('#update-session').removeAttr('disabled');
+
+        }
+      }
+    });
+  });
+
+  // Search by Name or Email.
+  $(document).on("keyup", "#session-search", function () {
+    var search = $(this).val();
+
+    $.ajax({
+      url: '{% url "adminhod:manage-session" %}',
+      type: 'GET',
+      data: { search: search },
+    })
+
+      .done(function (data) {
+        $("#session-table tbody").html(data.html_session_list);
+        $("#session-paginator").html(data.html_session_pagination);
+      })
+      .fail(function () {
+        Toast.fire({
+          type: 'error',
+          title: 'Error in filtering data. Please try again.'
+        })
+      })
+  });
+
+  // Pagination
+  $(document).on("click", "ul.pagination li button", function (e) {
+    e.preventDefault();
+    var pageNumber = $(this).attr('data-href');
+    var search = $("#session-search").val();
+
+    $.ajax({
+      url: '{% url "adminhod:ajax-paginate-session" %}',
+      type: 'GET',
+      data: { page: pageNumber, search: search },
+    })
+
+      .done(function (data) {
+        $("#session-table tbody").html(data.html_session_list);
+        $("#session-paginator").html(data.html_session_pagination);
+      })
+      .fail(function () {
+        Toast.fire({
+          type: 'error',
+          title: 'Error in filtering data. Please try again.'
+        })
+      })
+  });
+
+</script>

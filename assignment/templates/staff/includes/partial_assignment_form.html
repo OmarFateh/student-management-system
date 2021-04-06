@@ -1,0 +1,36 @@
+<div class="card-body">
+    <div class="form-group">
+        <label>Subject</label>
+        {{ form.subject.errors }}
+        {{ form.subject }}
+    </div>
+    <div class="form-group">
+        <label>Session year</label>
+        {{ form.session_year.errors }}
+        {{ form.session_year }}
+    </div>
+    <div class="form-group">
+        <label>Deadline Date</label>
+        {{ form.deadline_date.errors }}
+        <div class="input-group date">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="far fa-calendar-alt"></i>
+                </span>
+            </div>
+            {{ form.deadline_date }}
+        </div>
+        <!-- /.input group -->
+    </div>
+    <div class="form-group">
+        <label>Assignment</label>
+        {{ form.content.errors }}
+        {{ form.content }}
+    </div>
+    <div class="form-group">
+        <label>Allow Submission after Deadline</label>
+        {{ form.allow_submission_after_deadline.errors }}
+        {{ form.allow_submission_after_deadline }}
+    </div>
+</div>
+<!-- /.card-body -->

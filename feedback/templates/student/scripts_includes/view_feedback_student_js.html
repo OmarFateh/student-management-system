@@ -1,0 +1,122 @@
+{% load static %}
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.js' %}"></script>
+
+
+<script>
+    
+    // Student feedback view
+    $(document).ready(function () {
+        
+        /* Functions */
+        var loadForm = function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#modal-feedback-student").modal("show");
+                },
+                success: function (data) {
+                    $("#modal-feedback-student .modal-content").html(data.html_form);
+                }
+            });
+        };
+
+        /* Binding */
+
+        // View student feedback
+        $("#feedback-student-table").on("click", ".js-view-student-feedback", loadForm);
+    });
+
+    var isReplied = '';
+
+    // Filter by Reply
+    $(document).on("click", "#student-feedback-filter", function () {
+        isReplied = $('#student-feedback-filter-by-reply').val();
+        $('#feedback-student-search').val("");
+
+        $.ajax({
+            url: '{% url "feedback-student:ajax-filter-student-feedback" %}',
+            type: 'POST',
+            data: { is_replied: isReplied },
+        })
+
+            .done(function (data) {
+                $("#feedback-student-table tbody").html(data.html_student_feedback_list);
+                $("#feedback-student-paginator").html(data.html_student_feedback_pagination);
+            })
+            .fail(function () {
+                Toast.fire({
+                    type: 'error',
+                    title: 'Error in filtering data. Please try again.'
+                })
+            })
+    });
+
+    // Search by Date.
+    $(document).on("keyup", "#feedback-student-search", function () {
+        var search = $(this).val();
+        $('#student-feedback-filter-by-reply').val("");
+
+        $.ajax({
+        url: '{% url "feedback-student:view-feedback" %}',
+        type: 'GET',
+        data: { search: search },
+        })
+
+        .done(function (data) {
+            $("#feedback-student-table tbody").html(data.html_student_feedback_list);
+            $("#feedback-student-paginator").html(data.html_student_feedback_pagination);
+        })
+        .fail(function () {
+            Toast.fire({
+            type: 'error',
+            title: 'Error in filtering data. Please try again.'
+            })
+        })
+    });
+
+    // Pagination
+    $(document).on("click", "ul.pagination li button", function (e) {
+        e.preventDefault();
+        var pageNumber = $(this).attr('data-href');
+        var search = $("#feedback-student-search").val();
+        isRepliedPagination = '';
+        if (isReplied) {
+        isRepliedPagination = isReplied;
+        }
+
+        $.ajax({
+            url: '{% url "feedback-student:ajax-paginate-student-feedback" %}',
+            type: 'GET',
+            data: { page: pageNumber, search: search, is_replied: isRepliedPagination },
+        })
+
+            .done(function (data) {
+                $("#feedback-student-table tbody").html(data.html_student_feedback_list);
+                $("#feedback-student-paginator").html(data.html_student_feedback_pagination);
+            })
+            .fail(function () {
+                Toast.fire({
+                    type: 'error',
+                    title: 'Error in filtering data. Please try again.'
+                })
+            })
+    });
+
+</script>

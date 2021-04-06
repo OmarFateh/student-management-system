@@ -1,0 +1,78 @@
+{% load staff_tags %}
+
+<!-- Profile Image -->
+<div class="card card-primary card-outline">
+    <div class="card-body box-profile">
+        <div class="text-center">
+            <img class="profile-user-img img-fluid img-circle"
+                src="{{ staff.photo.url }}" alt="User profile picture">
+        </div>
+        <h3 class="profile-username text-center">{{ staff.user.full_name|title }}</h3>
+        
+        {% if request.user == staff.user %}
+            {% staff_subjects staff as staff_subjects %}
+        {% else %}
+            {% staff_subjects staff request.user as staff_subjects %}
+        {% endif %}
+        <p class="text-muted text-center"> 
+            {% if staff_subjects|length == 1 %} 
+            
+            {% for subject in staff_subjects %}
+            {{ subject }} 
+            {% endfor %}
+            {% endif %}
+            Teacher
+        </p>
+        {% if staff_subjects|length > 1 %} 
+        <ul class="list-group list-group-unbordered mb-3">
+            <li class="list-group-item">
+                <b>Subjects:</b> 
+                {% for subject in staff_subjects %}
+                {{ subject }}
+                {% if not forloop.last %} / {% endif %}
+                {% endfor %}
+            </li>
+        </ul>
+        {% endif %}
+        {% if request.user != staff.user %}
+        <a href="#" class="btn btn-primary btn-block"><b>Send Message</b></a>
+        {% endif %}
+    </div>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->
+
+<!-- About Me Box -->
+<div class="card card-primary">
+    <div class="card-header">
+        <h3 class="card-title">About Me</h3>
+    </div>
+    <!-- /.card-header -->
+    <div class="card-body">
+        <strong><i class="fas fa-envelope mr-1"></i> Email</strong>
+        <p class="text-muted">{{ staff.user.email }}</p>
+        <hr>
+        <strong><i class="fas fa-calendar-alt mr-1"></i> Birth Date</strong>
+        <p class="text-muted">{{ staff.birth_date }}</p>
+        <hr>
+        <strong><i class="fas fa-male"></i><i class="fas fa-female mr-1"></i> Gender</strong>
+        <p class="text-muted">{{ staff.gender|title }}</p>
+        <hr>
+        <strong><i class="fas fa-flag mr-1"></i> Nationality</strong>
+        <p class="text-muted"><img src='{{ staff.nationality.flag }}'/> {{ staff.nationality }}</p>
+        <hr>
+        <strong><i class="fas fa-map-marker-alt mr-1"></i> Address</strong>
+        <p class="text-muted">{{ staff.address }}</p>
+        <hr>
+        <strong><i class="fas fa-phone-alt mr-1"></i> Phone</strong>
+        <p class="text-muted">{{ staff.phone }}</p>
+        <hr>
+        <strong><i class="fas fa-book mr-1"></i> Education</strong>
+        <p class="text-muted">{{ staff.education }}Lorem ipsum represents a long-held tradition for designers, typographers and the like. Some people hate it and argue for its demise, but others ignore the hate as they create awesome tools to help create filler text for everyone from bacon lovers to Charlie Sheen fans.</p>   
+        <hr>
+        <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
+        <p class="text-muted">{{ staff.skills }}Lorem ipsum represents a long-held tradition for designers, typographers and the like. Some people hate it and argue for its demise, but others ignore the hate as they create awesome tools to help create filler text for everyone from bacon lovers to Charlie Sheen fans.</p>
+    </div>
+    <!-- /.card-body -->
+</div>
+<!-- /.card -->

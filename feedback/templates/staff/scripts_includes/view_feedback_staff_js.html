@@ -1,0 +1,121 @@
+{% load static %}
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.js' %}"></script>
+
+<script>
+    
+    // Staff feedback view
+    $(document).ready(function () {
+        
+        /* Functions */
+        var loadForm = function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#modal-feedback-staff").modal("show");
+                },
+                success: function (data) {
+                    $("#modal-feedback-staff .modal-content").html(data.html_form);
+                }
+            });
+        };
+
+        /* Binding */
+
+        // View staff feedback
+        $("#feedback-staff-table").on("click", ".js-view-staff-feedback", loadForm);
+    });
+
+    var isReplied = '';
+
+    // Filter by Reply
+    $(document).on("click", "#staff-feedback-filter", function () {
+        isReplied = $('#staff-feedback-filter-by-reply').val();
+        $("#feedback-staff-search").val("");
+
+        $.ajax({
+            url: '{% url "feedback-staff:ajax-filter-staff-feedback" %}',
+            type: 'POST',
+            data: { is_replied: isReplied },
+        })
+
+            .done(function (data) {
+                $("#feedback-staff-table tbody").html(data.html_staff_feedback_list);
+                $("#feedback-staff-paginator").html(data.html_staff_feedback_pagination);
+            })
+            .fail(function () {
+                Toast.fire({
+                    type: 'error',
+                    title: 'Error in filtering data. Please try again.'
+                })
+            })
+    });
+
+    // Search by Date.
+    $(document).on("keyup", "#feedback-staff-search", function () {
+        var search = $(this).val();
+        $('#staff-feedback-filter-by-reply').val("");
+
+        $.ajax({
+        url: '{% url "feedback-staff:view-feedback" %}',  
+        type: 'GET',
+        data: { search: search },
+        })
+
+        .done(function (data) {
+            $("#feedback-staff-table tbody").html(data.html_staff_feedback_list);
+            $("#feedback-staff-paginator").html(data.html_staff_feedback_pagination);
+        })
+        .fail(function () {
+            Toast.fire({
+            type: 'error',
+            title: 'Error in filtering data. Please try again.'
+            })
+        })
+    });
+
+    // Pagination
+    $(document).on("click", "ul.pagination li button", function (e) {
+        e.preventDefault();
+        var pageNumber = $(this).attr('data-href');
+        var search = $("#feedback-staff-search").val();
+        isRepliedPagination = '';
+        if (isReplied) {
+        isRepliedPagination = isReplied;
+        }
+
+        $.ajax({
+            url: '{% url "feedback-staff:ajax-paginate-staff-feedback" %}',
+            type: 'GET',
+            data: { page: pageNumber, search: search, is_replied: isRepliedPagination },
+        })
+
+            .done(function (data) {
+                $("#feedback-staff-table tbody").html(data.html_staff_feedback_list);
+                $("#feedback-staff-paginator").html(data.html_staff_feedback_pagination);
+            })
+            .fail(function () {
+                Toast.fire({
+                    type: 'error',
+                    title: 'Error in filtering data. Please try again.'
+                })
+            })
+    });
+
+</script>

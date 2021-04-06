@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>Add Session</title>
+{% endblock title %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            {% include 'adminhod/dashboard_includes/left_navbar.html' %}
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+
+                <!-- Notifications Dropdown Menu -->
+                {% include 'adminhod/dashboard_includes/notifications_dropdown.html' %}
+
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        {% include 'adminhod/dashboard_includes/main_sidebar.html' %}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Add Session</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="{% url 'adminhod:dashboard' %}">Home</a></li>
+                                <li class="breadcrumb-item active">Add Session</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- left column -->
+                        <div class="col-md-12">
+                            <!-- general form elements -->
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Add Session</h3>
+                                </div>
+                                <!-- /.card-header -->
+                                <!-- Display success message -->
+                                {% if messages %}
+                                    {% for message in messages %}
+                                        {% if 'add-session' in message.tags %}
+                                            <div class='alert alert-success message mt-2'>{{ message }}</div>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}  
+                                <!-- form start -->
+                                <form role="form" action='.' method='POST'>
+                                    {% csrf_token %}
+                                    {% include 'session/includes/partial_session_form.html' %}
+
+                                    <div class="card-footer d-flex justify-content-end">
+                                        <button type="submit" name='save_and_add_another' id='save-and-add-another-session' class="btn btn-primary mr-1">Save and add another</button>
+                                        <button type="submit" name='save' id='save-session' class="btn btn-primary">Save</button>
+                                    </div>
+                                </form>
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Footer Container -->
+        {% include 'adminhod/dashboard_includes/footer.html' %}
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- scripts -->
+    {% include 'session/scripts_includes/add_session_js.html' %}
+
+</body>
+
+{% endblock content %}

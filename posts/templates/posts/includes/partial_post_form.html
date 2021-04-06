@@ -1,0 +1,27 @@
+<div class="">
+    <div class="form-group">
+        {% for error in form.non_field_errors %}
+            <div class="text-danger mb-1">{{error}}</div>
+        {% endfor %}
+        <div class="text-danger mb-1">{{ form.content.errors }}</div>
+        {{ form.content }}
+    </div>
+    <div class="form-group upload-post-picture">
+        {% if form.instance.get_image_url %}
+        <img src='{{ form.instance.get_image_url }}' id='uploaded'> <!-- Uploaded picture goes here -->
+        {% else %}
+        <img src='#' id='uploaded' style="display: none;"> <!-- Uploaded picture goes here -->
+        {% endif %}
+        <div class="picture">
+            {{ form.image }}
+            <i class='fa fa-camera'></i>
+            <h3>Choose your picture</h3>
+            <div class='clearfix'></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="text-danger mb-1">{{ form.restrict_comment.errors }}</div>
+        <label>Turn off Comments</label>
+        <span class='ml-2'>{{ form.restrict_comment }}</span>
+    </div>
+</div>    

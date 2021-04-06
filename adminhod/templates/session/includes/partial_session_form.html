@@ -1,0 +1,21 @@
+<div class="card-body">
+    <!-- /.form-group -->
+    <div class="form-group">
+        <label>Date range</label>
+        <div class="js-validate-session-error text-red" role="alert" style="display: none;">
+        </div>
+        {{ form.date_range.errors }}
+        <div class="input-group date">
+            <div class="input-group-prepend">
+                <span class="input-group-text">
+                    <i class="far fa-calendar-alt"></i>
+                </span>
+            </div>
+            {{ form.date_range }}
+            <!-- <input type="date" name='date_range' class="form-control float-right" placeholder='dd/mm/yyyy' 
+            id="id_date_range" value='{{ form.instance.date_range|date:"Y-m-d" }}' required> -->
+        </div>
+        <!-- /.input group -->
+    </div>
+</div>
+<!-- /.card-body -->

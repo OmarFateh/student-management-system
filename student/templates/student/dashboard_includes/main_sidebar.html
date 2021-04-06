@@ -1,0 +1,201 @@
+{% load static %}
+{% load dashboard_tags %}
+
+{% url 'student:dashboard' as dashboard %}
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="{{ dashboard }}" class="brand-link">
+        <img src="{% static 'dist/img/AdminLTELogo.png' %}" alt="AdminLTE Logo"
+            class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span title='Student Management System' class="brand-text font-weight-light">SMS</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex" id="student-sidebar-data">
+            {% include 'student/dashboard_includes/student_sidebar_data.html' %}
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library --> 
+                
+                <li class="nav-item">
+                    <a href="{{ dashboard }}" class="nav-link {% if request.path == dashboard %} active {% endif %}">
+                      <i class="nav-icon fas fa-th"></i>
+                      <p>Home</p>
+                    </a>
+                </li>                      
+                {% url 'announcement-student:view-announcements' as view_announcements %}
+                {% is_in request.path view_announcements as announcements_active %}
+                <li class="nav-item has-treeview {% if announcements_active %} menu-open {% endif %}">
+                    <a href="#" class="nav-link {% if announcements_active %} active {% endif %}">
+                        <i class="nav-icon fas fa-bullhorn"></i>
+                        <p>
+                            Announcements
+                            <i class="fas fa-angle-left right"></i>
+                            {% if count_announcements %}
+                                <span class="badge badge-info right">
+                                    {{ count_announcements }}
+                                </span>
+                            {% endif %}
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ view_announcements }}" class="nav-link {% if request.path == view_announcements %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Announcements</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>    
+                {% url 'attendance-student:view-attendance' as view_attendance %}
+                {% is_in request.path view_attendance as attendance_active %}     
+                <li class="nav-item has-treeview {% if attendance_active %} menu-open {% endif %}">
+                    <a href="#" class="nav-link {% if attendance_active %} active {% endif %}">
+                        <i class="nav-icon fas fa-award"></i>
+                        <p>
+                            Attendance
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ view_attendance }}" class="nav-link {% if request.path == view_attendance %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Attendance</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {% url 'assignment-student:view-assignments' as view_assignments %}
+                {% is_in request.path view_assignments manage_assignment as assignment_active %}     
+                <li class="nav-item has-treeview {% if assignment_active %} menu-open {% endif %}">
+                    <a href="#" class="nav-link {% if assignment_active %} active {% endif %}">
+                        <i class="nav-icon fas fa-edit"></i>
+                        <p>
+                            Assignments
+                            <i class="fas fa-angle-left right"></i>
+                            {% if count_assignments %}
+                                <span class="badge badge-info right">
+                                    {{ count_assignments }}
+                                </span>
+                            {% endif %}
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ view_assignments }}" class="nav-link {% if request.path == view_assignments %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Assignments</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>         
+                {% url 'result-student:view-results' as view_results %}
+                {% is_in request.path view_results as results_active %}     
+                <li class="nav-item has-treeview {% if results_active %} menu-open {% endif %}">
+                    <a href="#" class="nav-link {% if results_active %} active {% endif %}">
+                        <i class="nav-icon fas fa-chart-bar"></i>
+                        <p>
+                            Results
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ view_results }}" class="nav-link {% if request.path == view_results %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Results</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>  
+                {% url 'feedback-student:add-feedback' as add_feedback_student %}
+                {% url 'feedback-student:view-feedback' as view_feedback_student %}
+                {% is_in request.path add_feedback_student view_feedback_student as feedback_active %}     
+                <li class="nav-item has-treeview {% if feedback_active %} menu-open {% endif %}">
+                    <a href="#" class="nav-link {% if feedback_active %} active {% endif %}">
+                        <i class="nav-icon fas fa-copy"></i>
+                        <p>
+                            Feedbacks
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ add_feedback_student }}" class="nav-link {% if request.path == add_feedback_student %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Add Feedback</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ view_feedback_student }}" class="nav-link {% if request.path == view_feedback_student %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>View Feedbacks</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {% url 'contact-student:student-contacts-staff' as student_contacts_staff %}
+                {% url 'contact-student:student-contacts' as student_contacts %}
+                {% is_in request.path student_contacts_staff student_contacts as contacts_active %}
+                <li class="nav-item has-treeview {% if contacts_active %} menu-open {% endif %}">
+                    <a href="#" class="nav-link {% if contacts_active %} active {% endif %}">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Contacts
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ student_contacts_staff }}" class="nav-link {% if request.path == student_contacts_staff %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Staff</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ student_contacts }}" class="nav-link {% if request.path == student_contacts %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Students</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                {% url 'feed-student:student-feed' as feed_student %}
+                {% url 'contact-staff:staff-contacts-students' as staff_contact_students %}
+                {% is_in request.path feed_student staff_contact_students as feed_active %}
+                <li class="nav-item has-treeview {% if feed_active %} menu-open {% endif %}">
+                    <a href="#" class="nav-link {% if feed_active %} active {% endif %}">
+                        <i class="nav-icon fas fa-comments"></i>
+                        <p>
+                            Community
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{ feed_student }}" class="nav-link {% if request.path == feed_student %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Feed</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ staff_contact_students }}" class="nav-link {% if request.path == staff_contact_students %} active {% endif %}">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Chat</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>                        
+            </ul>
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

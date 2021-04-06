@@ -1,0 +1,20 @@
+<!-- form start -->
+<form role="form" action='{{ comment.get_update_absolute_url }}' method='POST' class="js-comment-update-form" value="{{ comment.post.id }}">
+    {% csrf_token %}
+    <!-- modal header -->
+    <div class="modal-header">
+        <h4 class="modal-title">Update Comment</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- modal body -->
+    <div class="modal-body">
+        {% include 'posts/includes/partial_comment_form.html' %}
+    </div>
+    <!-- modal footer -->
+    <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" id="update-comment">Save changes</button>
+    </div>
+</form>

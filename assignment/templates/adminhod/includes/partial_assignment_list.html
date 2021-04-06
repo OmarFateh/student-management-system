@@ -1,0 +1,27 @@
+{% for assignment in assignments %}
+<tr>
+    <td>{{ assignment.subject.course.name }}</td>
+    <td>{{ assignment.subject.name }}</td>
+    <td>{{ assignment.session_year }}</td>
+    <td>{{ assignment.deadline_date }}</td>
+    <td>{{ assignment.content|slice:":35" }} ...</td>
+    <td>
+        <div class="btn-group btn-group-sm">
+            <button type="button"
+              class="btn btn-info js-view-assignment"
+              data-url="{{ assignment.get_absolute_url }}">
+              <i class="fas fa-eye"></i>
+            </button>
+        </div>
+    </td>
+    <td class='text-center'>
+        <div class="btn-group btn-group-sm">
+          <a href="{{ assignment.get_submitted_assignments_adminhod_absolute_url }}" class="btn btn-success"><i class="fas fa-file-download"></i></a>
+        </div>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="7" class="text-center bg-warning"><b>No Assignments</b></td>
+</tr>
+{% endfor %}

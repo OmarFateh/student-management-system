@@ -1,0 +1,111 @@
+{% load static %}
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Moment -->
+<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.js' %}"></script>
+
+
+<script>
+    /* Constants */
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000
+    });
+
+    var isSubmitted = '';
+
+    // Filter by Submission.
+    $(document).on("click", "#assignments-filter", function () {
+        isSubmitted = $('#assignments-filter-by-submission').val();
+        $('#assignment-search').val("");
+
+        $.ajax({
+        url: '{% url "assignment-staff:ajax-filter-submitted-assignments" assignment.slug %}',
+        type: 'POST',
+        data: { is_submitted: isSubmitted },
+        })
+
+        .done(function (data) {
+            $("#assignment-table tbody").html(data.html_assignment_list);
+            $("#assignment-paginator").html(data.html_assignment_pagination);
+        })
+        .fail(function () {
+            Toast.fire({
+            type: 'error',
+            title: 'Error in filtering data. Please try again.'
+            })
+        })
+    });
+
+    // Search by Student's Name and Submission Date.
+    $(document).on("keyup", "#assignment-search", function () {
+        var search = $(this).val();
+        $('#assignments-filter-by-submission').val("");
+
+        $.ajax({
+        url: '{% url "assignment-staff:view-submitted-assignments" assignment.slug %}',
+        type: 'GET',
+        data: { search: search },
+        })
+
+        .done(function (data) {
+            $("#assignment-table tbody").html(data.html_assignment_list);
+            $("#assignment-paginator").html(data.html_assignment_pagination);
+        })
+        .fail(function () {
+            Toast.fire({
+            type: 'error',
+            title: 'Error in filtering data. Please try again.'
+            })
+        })
+    });
+
+    // Pagination
+    $(document).on("click", "ul.pagination li button", function (e) {
+        e.preventDefault();
+        var pageNumber = $(this).attr('data-href');
+        var search = $("#assignment-search").val();
+        isSubmittedPagination = '';
+        if (isSubmitted) {
+        isSubmittedPagination = isSubmitted;
+        }
+
+        $.ajax({
+            url: '{% url "assignment-staff:ajax-paginate-submitted-assignments" assignment.slug %}',
+            type: 'GET',
+            data: { page: pageNumber, search: search, is_submitted: isSubmittedPagination },
+        })
+
+            .done(function (data) {
+                $("#assignment-table tbody").html(data.html_assignment_list);
+                $("#assignment-paginator").html(data.html_assignment_pagination);
+            })
+            .fail(function () {
+                Toast.fire({
+                    type: 'error',
+                    title: 'Error in filtering data. Please try again.'
+                })
+            })
+    });
+
+
+</script>

@@ -1,0 +1,161 @@
+{% load static %}
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Moment -->
+<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+<!-- daterangepicker -->
+<script src="{% static 'plugins/daterangepicker/daterangepicker.js' %}"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="{% static 'plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.js' %}"></script>
+
+
+<script>
+  /* Constants */
+  const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 5000
+  });
+
+  $(document).ready(function () {
+    
+    /* View results */
+    // fetch subjects
+    $(document).on("change", "#adminhod-view-results-course", function () {
+      var courseId = $(this).val();  
+
+      $.ajax({                       
+        url: '{% url "attendance-adminhod:ajax-fetch-subjects" %}',
+        type: 'GET',                    
+        data: {'course': courseId},
+      }) 
+        .done(function (response) {        
+          var json_data = JSON.parse(response);
+          var div_data = "";
+          for (key in json_data) {
+            div_data+="<option value='" + json_data[key]['id'] + "'>" + json_data[key]['name'] + "</option>";
+          }
+          $("#adminhod-view-results-subject").html(div_data);  
+        })
+
+    });
+    
+    // view results
+    $(document).on("click", "#adminhod-view-results", function () {
+      var subjectId = $('#adminhod-view-results-subject').val();
+      var sessionId = $('#adminhod-view-results-session').val();
+      
+      $.ajax({
+        url: "{% url 'result-adminhod:ajax-fetch-student-results-data' %}",
+        type: 'POST',
+        data: { subject_id: subjectId, session_year_id: sessionId },
+      })
+        .done(function (response) {
+          var json_data = JSON.parse(response);
+          var div_data = "<table class='table table-hover text-nowrap' id='adminhod-view-results-table'>";
+          div_data += "<thead><tr><th>Name</th><th class='text-center'>Assign no.1</th>";
+          div_data += "<th class='text-center'>Assign no.2</th><th class='text-center'>Assign no.3</th><th class='text-center'>Assign no.4</th>";
+          div_data += "<th class='text-center'>Assign no.5</th><th class='text-center'>Final Exam</th>";
+          div_data += "</tr></thread><tbody>";
+          if (json_data.length > 0) {
+            for (key in json_data) {
+              div_data += "<tr><td>" + json_data[key]['name'] + "</td>" 
+              div_data += "<td class='text-center'>";
+              if (json_data[key]['assignment_one_marks']){
+                div_data += "" + json_data[key]['assignment_one_marks'] + "";
+              }
+              else {
+                div_data += "--";
+              }
+              div_data += "</td>";
+
+              div_data += "<td class='text-center'>";
+              if (json_data[key]['assignment_two_marks']){
+                div_data += "" + json_data[key]['assignment_two_marks'] + "";
+              }
+              else {
+                div_data += "--";
+              }
+              div_data += "</td>";
+
+              div_data += "<td class='text-center'>";
+              if (json_data[key]['assignment_three_marks']){
+                div_data += "" + json_data[key]['assignment_three_marks'] + "";
+              }
+              else {
+                div_data += "--";
+              }
+              div_data += "</td>";
+
+              div_data += "<td class='text-center'>";
+              if (json_data[key]['assignment_four_marks']){
+                div_data += "" + json_data[key]['assignment_four_marks'] + "";
+              }
+              else {
+                div_data += "--";
+              }
+              div_data += "</td>";
+
+              div_data += "<td class='text-center'>";
+              if (json_data[key]['assignment_five_marks']){
+                div_data += "" + json_data[key]['assignment_five_marks'] + "";
+              }
+              else {
+                div_data += "--";
+              }
+              div_data += "</td>";
+
+              div_data += "<td class='text-center'>";
+              if (json_data[key]['final_exam_marks']){
+                div_data += "" + json_data[key]['final_exam_marks'] + "";
+              }
+              else {
+                div_data += "--";
+              }
+              div_data += "</td>";
+
+              div_data += "</tr>";
+            }
+            $('#adminhod-no-results-data').html("");
+            $('#adminhod-no-results-data').hide(); 
+          }
+          else{
+            $('#adminhod-no-results-data').html("<b>No results Data</b>");
+            $('#adminhod-no-results-data').show();
+          }
+          div_data += "</tbody></table>";
+          $('#adminhod-view-results-data').html(div_data);
+          $('#adminhod-view-results-data').show();
+        })
+        .fail(function () {
+          Toast.fire({
+              type: 'error',
+              title: 'Error in fetching results data. Please try again.'
+            })
+          $('#adminhod-no-results-data').html("");
+          $('#adminhod-no-results-data').hide();  
+        })
+    });
+
+  });
+
+</script>
+

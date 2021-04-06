@@ -1,0 +1,32 @@
+<!-- form start -->
+<form enctype="multipart/form-data" action='{% url "assignment-student:upload-assignment" assignment.pk %}' method='POST' class="js-assignment-upload-form">
+    {% csrf_token %}
+    <!-- modal header -->
+    <div class="modal-header">
+        <h4 class="modal-title">Upload Assignment</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- modal body -->
+    <div class="modal-body">
+        <div class="card-body">
+            <div class="form-group">
+                <label>Assignment</label>
+                {{ form.document.errors }}
+                <div class="input-group">
+                    <div class="custom-file">
+                        {{ form.document }}
+                        <!-- <input type="file" class="custom-file-input" id="fileInputAssignment" name="assignment" required> -->
+                        <label class="custom-file-label" for="fileInputAssignment">No file selected</label>
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+    <!-- modal footer -->
+    <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary" id='upload-assignment'>Save changes</button>
+    </div>
+</form>

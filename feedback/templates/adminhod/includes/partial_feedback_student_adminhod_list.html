@@ -1,0 +1,26 @@
+{% for feedback in feedbacks %}
+<tr {% if not feedback.is_replied %} class='text-danger'{% endif %}>
+    <td>{{ feedback.created_at }}</td>
+    <td>{{ feedback.student.user.full_name }}</td>
+    <td>{{ feedback.student.course }}</td>
+    <td>{{ feedback.student.session_year }}</td>
+    <td>{{ feedback.content|slice:":35" }} ...</td>
+    {% if feedback.is_replied %}
+    <td>{{ feedback.reply|slice:":8" }} ...</td>
+    {% else %}
+    <td>No Reply</td>
+    {% endif %}
+    <td>
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-info js-reply-student-feedback"
+                data-url="{{ feedback.get_absolute_url_adminhod }}">
+                <i class="fas fa-eye"></i>
+            </button>
+        </div>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="8" class="text-center bg-warning"><b>No Feedback</b></td>
+</tr>
+{% endfor %}

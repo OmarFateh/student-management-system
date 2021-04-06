@@ -1,0 +1,38 @@
+{% load staff_tags %}
+
+{% for staff in staffs %}
+<tr>
+    <td>{{ staff.user.full_name|title }}</td>
+    <td>{{ staff.user.email }}</td>
+    {% staff_subjects staff as staff_subjects %}
+    <td>{% for subject in staff_subjects %}
+      {{ subject }}
+      {% if not forloop.last %} / {% endif %}
+      {% endfor %}
+    </td>
+    <td>{{ staff.birth_date }}</td>
+    <td class='text-center'>{{ staff.nationality }}<img src='{{ staff.nationality.flag }}'></td>
+    <td class='text-center'>{{ staff.gender|title }}</td>
+    <td>{{ staff.phone }}</td>
+    <td class='text-center'>{{ staff.address }}</td>
+    <td class='text-center'>{{ staff.recruitment_date }}</td>
+    <td>
+        <div class="btn-group btn-group-sm">
+            <button type="button"
+              class="btn btn-info js-update-staff"
+              data-url="{{ staff.get_update_absolute_url }}">
+              <i class="fas fa-eye"></i>
+            </button>
+            <button type="button"
+              class="btn btn-danger js-delete-staff"
+              data-url="{{ staff.get_delete_absolute_url }}">
+              <i class="fas fa-trash"></i>
+            </button>
+        </div>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="10" class="text-center bg-warning"><b>No Staff</b></td>
+</tr>
+{% endfor %}

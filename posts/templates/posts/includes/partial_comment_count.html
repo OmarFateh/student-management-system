@@ -1,0 +1,4 @@
+<span class="post-comment-count text-secondary text-sm" 
+    {% if not post.comments.count %} style="display: none;" {% endif %}>
+    {{ post.comments.count }} Comment{{ post.comments.count|pluralize }}
+</span>

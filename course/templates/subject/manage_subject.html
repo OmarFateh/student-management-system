@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+<title>Subjects</title>
+{% endblock title %}
+
+{% block content %}
+
+<body class="hold-transition sidebar-mini layout-fixed">
+    <div class="wrapper">
+
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            {% include 'adminhod/dashboard_includes/left_navbar.html' %}
+
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+            
+                <!-- Notifications Dropdown Menu -->
+                {% include 'adminhod/dashboard_includes/notifications_dropdown.html' %}
+
+            </ul>
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        {% include 'adminhod/dashboard_includes/main_sidebar.html' %}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Subjects</h1>
+                        </div><!-- /.col -->
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="{% url 'adminhod:dashboard' %}">Home</a></li>
+                                <li class="breadcrumb-item active">Subjects</li>
+                            </ol>
+                        </div><!-- /.col -->
+                    </div><!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-solid" style='width: 100%;'>
+                                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                    <!-- Filter  -->
+                                    <div class='d-flex flex-wrap flex-grow-1'>
+                                        {% if courses|length > 1 %}
+                                        <select class="custom-select d-flex flex-grow-1 flex-md-grow-0 m-1 m-lg-2"
+                                            style="width: auto;" name='course' id='subjects-filter-by-course'>
+                                            <option value="" selected>Sort by Course</option>
+                                            {% for course in courses %}
+                                            <option value='{{ course.id }}'>{{ course.name }}</option>
+                                            {% endfor %}
+                                        </select> 
+                                        {% endif %}
+                                        <select class="custom-select d-flex flex-grow-1 flex-md-grow-0 m-1 m-lg-2"
+                                            style="width: auto;" name='staff' id='subjects-filter-by-staff'>
+                                            <option value="" selected>Sort by Staff</option>
+                                            {% for staff in staffs %}
+                                                <option value='{{ staff.id }}'>{{ staff }}</option>
+                                            {% endfor %}
+                                        </select>    
+                                        <div class="btn-group d-flex flex-grow-1 flex-md-grow-0 m-1 m-lg-2">
+                                            <button type="submit" name='filter' class="btn btn-default"
+                                            id='subjects-filter'>Filter</button>
+                                        </div>
+                                    </div>
+                                    <!-- Search  -->
+                                    <div class="card-tools d-flex flex-grow-1 flex-md-grow-0 mx-1 mx-lg-2 my-3 my-lg-2"
+                                        style="min-width: 280px; min-height: 38px;">
+                                        <div class="input-group input-group-sm">
+                                            <input type="text" name="table_search" class="form-control float-right"
+                                                style="height: 100%;" id='subjects-search' placeholder="Search by Name or Code">
+            
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-default"><i
+                                                        class="fas fa-search"></i></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <!-- Table -->
+                                <div class="card-body table-responsive p-0">
+                                    <table class="table table-hover text-nowrap" id='subject-table'>
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Code</th>
+                                                <th>Course</th>
+                                                <th>Staff</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Edit/Delete</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% include 'subject/includes/partial_subject_list.html' %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <!-- /.card-body -->
+                                <div id='subject-paginator'>
+                                    {% include 'subject/includes/partial_subject_pagination.html' %}
+                                </div>
+                                <!-- /.card-footer -->
+                            </div>
+                            <!-- /.card -->
+                        </div>
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </section>
+        </div>
+        <!-- /.content-wrapper -->
+
+        <!-- Subject Modal -->
+        <div class="modal fade" id="modal-subject">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+
+        <!-- Footer Container -->
+        {% include 'adminhod/dashboard_includes/footer.html' %}
+
+    </div>
+    <!-- ./wrapper -->
+
+    <!-- scripts -->
+    {% include 'subject/scripts_includes/manage_subject_js.html' %}
+
+</body>
+
+{% endblock content %}

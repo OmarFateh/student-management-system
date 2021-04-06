@@ -1,0 +1,147 @@
+{% load static %}
+
+<!-- jQuery -->
+<script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+<!-- jQuery UI 1.11.4 -->
+<script src="{% static 'plugins/jquery-ui/jquery-ui.min.js' %}"></script>
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+    $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- Bootstrap 4 -->
+<script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<!-- Moment -->
+<script src="{% static 'plugins/moment/moment.min.js' %}"></script>
+<!-- overlayScrollbars -->
+<script src="{% static 'plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
+<!-- SweetAlert2 -->
+<script src="{% static 'plugins/sweetalert2/sweetalert2.min.js' %}"></script>
+<!-- Toastr -->
+<script src="{% static 'plugins/toastr/toastr.min.js' %}"></script>
+<!-- AdminLTE App -->
+<script src="{% static 'dist/js/adminlte.js' %}"></script>
+
+
+<script>
+    /* Constants */
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 5000
+    });
+
+    // Course update & delete 
+    $(document).ready(function () {
+        // messages timeout for 5 sec
+        setTimeout(function () {$('.message').fadeOut('slow');}, 5000); // <-- time in milliseconds, 1000 =  1 sec
+        
+        /* Functions */
+        var loadForm = function () {
+            var btn = $(this);
+            $.ajax({
+                url: btn.attr("data-url"),
+                type: 'get',
+                dataType: 'json',
+                beforeSend: function () {
+                    $("#modal-course").modal("show");
+                },
+                success: function (data) {
+                    $("#modal-course .modal-content").html(data.html_form);
+                }
+            });
+        };
+
+        var saveForm = function () {
+            var form = $(this);
+            $.ajax({
+                url: form.attr("action"),
+                data: form.serialize(),
+                type: form.attr("method"),
+                dataType: 'json',
+                success: function (data) {
+                    if (data.form_is_valid) {
+                        $("#course-table tbody").html(data.html_course_list);
+                        $("#modal-course").modal("hide");
+                        const courseName = data.course_name
+                        if (data.is_update) {
+                            // Update Toaster 
+                            Toast.fire({
+                                type: 'success',
+                                title: 'Course "' + courseName + '" has been updated successfully.'
+                            })
+                        }
+                        else {
+                            // Delete Toaster 
+                            Toast.fire({
+                                type: 'success',
+                                title: 'Course "' + courseName + '" has been deleted successfully.'
+                            })
+                        }
+                    }
+                    else {
+                        $("#modal-course .modal-content").html(data.html_form);
+                    }
+                }
+            });
+            return false;
+        };
+        /* Binding */
+
+        // Update course
+        $("#course-table").on("click", ".js-update-course", loadForm);
+        $("#modal-course").on("submit", ".js-course-update-form", saveForm);
+
+        // Delete course
+        $("#course-table").on("click", ".js-delete-course", loadForm);
+        $("#modal-course").on("submit", ".js-course-delete-form", saveForm);
+    });
+
+    // Search by Name or Code.
+    $(document).on("keyup", "#courses-search", function () {
+        var search = $(this).val();
+
+        $.ajax({
+        url: '{% url "course:manage-course" %}',
+        type: 'GET',
+        data: { search: search },
+        })
+
+        .done(function (data) {
+            $("#course-table tbody").html(data.html_course_list);
+            $("#course-paginator").html(data.html_course_pagination);
+        })
+        .fail(function () {
+            Toast.fire({
+            type: 'error',
+            title: 'Error in filtering data. Please try again.'
+            })
+        })
+    });
+
+    // Pagination
+    $(document).on("click", "ul.pagination li button", function (e) {
+        e.preventDefault();
+        var pageNumber = $(this).attr('data-href');
+        var search = $("#courses-search").val();
+
+        $.ajax({
+            url: '{% url "course:ajax-paginate-courses" %}',
+            type: 'GET',
+            data: { page: pageNumber, search: search },
+        })
+
+            .done(function (data) {
+                $("#course-table tbody").html(data.html_course_list);
+                $("#course-paginator").html(data.html_course_pagination);
+            })
+            .fail(function () {
+                Toast.fire({
+                    type: 'error',
+                    title: 'Error in filtering data. Please try again.'
+                })
+            })
+    });
+
+    
+</script>
