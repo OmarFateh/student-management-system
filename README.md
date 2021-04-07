@@ -1,18 +1,19 @@
 # Instagram Clone
-> A student management system made with django framework.
+> A student management system made with django framework and JS.
 
 ## Table of contents
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Features](#features)
+* [User Credintials](#User-Credintials)
 * [TODO](#TODO)
-
 
 ## Technologies
 * Python 3.8
 * Django 3.0.8
 * Ajax
 * JQuery
+* Chart.js
 
 ## Setup
 The first thing to do is to clone the repository:  
@@ -31,7 +32,7 @@ Run the server
 
 * Course Admin:  
       - add/view/remove student  
-		  - add/view/remove staff  
+      - add/view/remove staff  
       - view attendance data  
       - add/view announcements  
       - view/reply feedback  
@@ -43,12 +44,12 @@ Run the server
       - view/update profile
       - add/view results  
       - add/view announcements  
-    	- send feedback  
-    	- add/view/download assignments  
+      - send feedback  
+      - add/view/download assignments  
 
 * Student:
       - view attendance  
-    	- view profile  
+      - view profile  
       - view/upload assignments  
       - view results  
       - view announcements  
@@ -58,5 +59,11 @@ Run the server
 * A user can add/update/delete a post to his community of the course.
 * A user can like, add/update/delete a comment and a reply to a post in his community of the course.
 
+## User Credintials
+* Admin: - email--> omar0@gmail.com  - password-->admin1600
+* Staff: - email--> ahmadali@gmail.com  - password-->admin1600
+* Student: - email--> ahmed2000@gmail.com  - password-->admin1600
+
 ## TODO
 * Implement Direct Messages (DM)
+* Implement Notifications
