@@ -77,7 +77,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # custom
-    # 'accounts.middlewares.RestrictionRolesMiddleWare',
+    'accounts.middlewares.RestrictionRolesMiddleWare',
 ]
 
 LOGIN_URL = 'login/'

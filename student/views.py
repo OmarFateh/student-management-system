@@ -12,6 +12,7 @@ from adminhod.student.forms import UpdateStudentForm
 from posts.utils import paginate_posts
 from posts.forms import CommentForm
 
+
 def student_dashboard(request):
     """
     Student dashboard.

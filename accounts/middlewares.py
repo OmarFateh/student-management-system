@@ -38,6 +38,8 @@ class RestrictionRolesMiddleWare(MiddlewareMixin):
                         'feedback.staff.views',
                         'attendance.staff.views',
                         'result.staff.views',
+                        'contact.staff.views',
+                        'feed.staff.views',
                         'django.views.static',
                         'django.contrib.auth.views',
                     ]:
@@ -59,6 +61,8 @@ class RestrictionRolesMiddleWare(MiddlewareMixin):
                         'feedback.student.views',
                         'attendance.student.views',
                         'result.student.views',
+                        'contact.student.views',
+                        'feed.student.views',
                         'django.views.static',
                         'django.contrib.auth.views',
                     ]:

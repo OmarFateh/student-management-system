@@ -5,6 +5,7 @@ from django.db.models import Q
 from django.contrib.auth import get_user_model
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
 from rest_framework import authentication, permissions
 from rest_framework.views import APIView
@@ -17,6 +18,7 @@ from .forms import PostForm, CommentForm
 
 User = get_user_model()
 
+@login_required
 def post_detail(request, post_slug=None):
     """
     Take slug, get the post with this slug, and display the post detail.
@@ -55,6 +57,7 @@ def post_detail(request, post_slug=None):
     context = {"post":post, 'likes_count':likes_count, 'is_liked_user':is_liked_user, 'comment_form':comment_form}
     return render(request, 'posts/post_detail.html', context)
 
+@login_required
 def add_post(request):
     """
     Add new post.
@@ -84,6 +87,7 @@ def add_post(request):
     data['html_form'] = render_to_string('posts/includes/partial_post_add.html', context, request=request)    
     return JsonResponse(data)               
 
+@login_required
 def update_post(request, post_slug=None):
     """
     Take slug, get the post with this slug, and update the post.
@@ -182,6 +186,7 @@ def delete_post_detail(request, post_slug=None):
 #     data['html_comment_count'] = render_to_string('posts/includes/partial_comment_count.html', {"post":post})
 #     return JsonResponse(data)    
 
+@login_required
 def update_comment(request, comment_id=None):
     """
     Take id, get the comment with this id, and update the comment.
@@ -233,6 +238,7 @@ def delete_comment(request, comment_id=None):
         data['html_form'] = render_to_string('posts/includes/partial_comment_delete.html', context, request=request)
     return JsonResponse(data)
 
+@login_required
 def comment_likes(request, comment_id=None):
     """
     Take id, get the comment with this id, and display the comment's likes.
@@ -248,6 +254,7 @@ def comment_likes(request, comment_id=None):
     data['html_likes_list'] = render_to_string('posts/includes/partial_post_likes_list.html', context, request=request)
     return JsonResponse(data) 
 
+@login_required
 def post_likes(request, post_slug=None):
     """
     Take slug, get the post with this slug, and display the post's likes.

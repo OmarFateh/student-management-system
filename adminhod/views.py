@@ -93,7 +93,9 @@ def update_adminhod_view(request):
     if request.method == 'POST':
         if user_form.is_valid():
             # update adminhod.
-            user_form.save()
+            adminhod.user.full_name = user_form.cleaned_data.get("full_name")
+            adminhod.user.email = user_form.cleaned_data.get("email")
+            adminhod.user.save()
             # Display success message.
             messages.success(request, f'Your profile has been updated successfully.', extra_tags='update-adminhod-profile')
             return redirect('adminhod:update-adminhod-profile') 
