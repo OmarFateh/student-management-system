@@ -98,32 +98,12 @@
                                             </div>
                                         </div>
                                     </div>    
-                                    <!-- <div class="profile-post-add pb-3 mb-3 mx-n3">
-                                        <div class="d-flex align-items-center px-3">
-                                            <img src="{{ request.user.staff.photo.url }}" class="img-circle img-bordered-sm img-user-add-post" alt="User Image">
-                                            <div class="input-group input-group-sm pl-3" id='add-post'>
-                                                <input type="text" name="table_search" class="form-control float-right input-add-post" id='js-add-post' data-url="{% url 'posts:add-post' %}"
-                                                        placeholder="What's on your mind, &nbsp {{ request.user.full_name|split:' '|first|title }}?" autocomplete="off">
-                                            </div>
-                                        </div>
-                                    </div> -->
                                     {% endif %}
-                                    <!-- <div class="infinite-container"> -->
-                                        <div id='partial-post-list'>
-                                            {% include 'posts/includes/partial_post_list.html' %}
-                                        </div>
-                                    <!-- </div>  -->
-                                </div>
-                                <!-- Post Modal -->
-                                <div class="modal fade" id="modal-post">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                        </div>
-                                        <!-- /.modal-content -->
+                                    <!-- Post List  -->
+                                    <div id='partial-post-list'>
+                                        {% include 'posts/includes/partial_post_list.html' %}
                                     </div>
-                                    <!-- /.modal-dialog -->
                                 </div>
-                                <!-- /.modal -->
                                 {% if request.user == staff.user %}
                                 <!-- /.tab-pane -->
                                 <div class="tab-pane" id="timeline">
@@ -267,7 +247,18 @@
             </section>
         </div>
         <!-- /.content-wrapper -->
-
+        
+        <!-- Post Modal -->
+        <div class="modal fade" id="modal-post">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+        
         <!-- Footer Container -->
         {% include 'adminhod/dashboard_includes/footer.html' %}
 
