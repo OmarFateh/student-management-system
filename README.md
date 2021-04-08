@@ -17,7 +17,7 @@
 
 ## Setup
 The first thing to do is to clone the repository:  
-`$ git clone https://github.com/OmarFateh/Instagram-Clone.git`  
+`$ git clone https://github.com/OmarFateh/student-management-system.git`  
 Setup project environment with virtualenv and pip.  
 `$ virtualenv project-env`  
 Activate the virtual environment  
