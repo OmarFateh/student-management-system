@@ -1,4 +1,4 @@
-# Instagram Clone
+# Student Management System
 > A student management system made with django framework and JS.
 
 ## Table of contents
