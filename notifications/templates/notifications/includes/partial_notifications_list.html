@@ -1,0 +1,98 @@
+{% load announcement_tags %}
+
+<!-- The timeline -->
+<div class="card card-full-height">
+    <div class="card-body">
+        <div class="timeline timeline-inverse">
+            <!-- timeline time label -->
+            {% for notification in notifications %}
+            {% ifchanged %}
+            <div class="time-label">
+                <span class="bg-green">{{ notification.created_at|date }}</span>
+            </div>
+            {% endifchanged %}
+            <!-- /.timeline-label -->
+            <!-- post like -->
+            {% if notification.notification_type == 'like' %}
+            <div>
+                <i class="fas fa-thumbs-up bg-purple"></i>
+                <div class="timeline-item">
+                    <span class="time"><i class="fas fa-clock"></i>
+                        {{ notification.created_at|timesince|rounded_timesince:',' }} 
+                    </span>
+                    <h3 class="timeline-header no-border">
+                        <a  {% if notification.sender.staff %} href="{{ notification.sender.staff.get_absolute_url }}"
+                            {% elif notification.sender.student %} href="{{ notification.sender.student.get_absolute_url }}"
+                            {% endif %}>
+                            {{ notification.sender.full_name|title }}
+                        </a> 
+                        liked your
+                        <a href="{{ notification.post.get_absolute_url }}">post</a>
+                    </h3>
+                    {% if notification.post.content %}
+                    <div class="timeline-body">
+                        {{ notification.post.content }}
+                    </div>
+                    {% endif %}
+                </div>
+              </div>
+            {% endif %}
+            <!-- comment -->
+            {% if notification.notification_type == 'comment' %}
+            <div>
+                <i class="fas fa-comments bg-yellow"></i>
+                <div class="timeline-item">
+                  <span class="time"><i class="fas fa-clock"></i> 
+                    {{ notification.created_at|timesince|rounded_timesince:',' }}
+                </span>
+                  <h3 class="timeline-header">
+                        <a {% if notification.sender.staff %} href="{{ notification.sender.staff.get_absolute_url }}"
+                        {% elif notification.sender.student %} href="{{ notification.sender.student.get_absolute_url }}"
+                        {% endif %}>
+                          {{ notification.sender.full_name|title }}
+                        </a> 
+                        commented on your 
+                        <a href="{{ notification.post.get_absolute_url }}">post</a>
+                    </h3>
+                  <div class="timeline-body">
+                    {{ notification.comment.content }}
+                  </div>
+                  <div class="timeline-footer">
+                    <a href="{{ notification.post.get_absolute_url }}" class="btn btn-warning btn-sm">
+                        View Comment
+                    </a>
+                  </div>
+                </div>
+              </div>
+              {% endif %}
+              <!-- comment like -->
+              {% if notification.notification_type == 'comment_like' %}
+              <div>
+                <i class="fas fa-thumbs-up bg-yellow"></i>
+                <div class="timeline-item">
+                    <span class="time"><i class="fas fa-clock"></i> 
+                        {{ notification.created_at|timesince|rounded_timesince:',' }}
+                    </span>
+                    <h3 class="timeline-header">
+                        <a {% if notification.sender.staff %} href="{{ notification.sender.staff.get_absolute_url }}"
+                        {% elif notification.sender.student %} href="{{ notification.sender.student.get_absolute_url }}"
+                        {% endif %}>
+                          {{ notification.sender.full_name|title }}
+                        </a> 
+                        liked your
+                        <a href="{{ notification.post.get_absolute_url }}">comment</a>
+                    </h3>
+                    <div class="timeline-body">
+                        {{ notification.comment.content }}
+                    </div>
+                </div>
+              </div>
+              {% endif %}
+            {% endfor %}
+            <!-- END timeline item -->
+            <div>
+                <i class="far fa-clock bg-gray"></i>
+            </div>
+        </div>
+    </div>
+</div>    

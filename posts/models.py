@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 def post_image(instance, filename):
     """
     Upload the post image into the path and return the uploaded image path.
@@ -14,6 +15,7 @@ def post_image(instance, filename):
     elif instance.user.user_type == 'STUDENT': 
         profile_pic_path = f'student/{instance.user.full_name}/posts/{filename}'   
     return profile_pic_path
+
 
 class PostAbstractRelationship(models.Model):
     """
@@ -25,17 +27,13 @@ class PostAbstractRelationship(models.Model):
     class Meta:
         abstract = True
 
+
 class PostLike(PostAbstractRelationship):
     """
     A relationship model between the Post and its likes.
     """
     post = models.ForeignKey('Post', on_delete=models.CASCADE)
 
-# class PostFavourite(PostAbstractRelationship):
-#     """
-#     A relationship model between the post and its favourites.
-#     """
-#     post = models.ForeignKey('Post', on_delete=models.CASCADE)
 
 class PostManager(models.Manager):
     """
@@ -55,6 +53,7 @@ class PostManager(models.Manager):
         """ 
         return Comment.objects.filter_by_parent(self)         
 
+
 class Post(models.Model):
     """
     Post model.
@@ -64,15 +63,12 @@ class Post(models.Model):
     content = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to=post_image, null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='likes', blank=True, through=PostLike)
-    # favourites = models.ManyToManyField(User, related_name='favourites', blank=True, through=PostFavourite)
     restrict_comment = models.BooleanField(default=False)
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     objects = PostManager()
     class Meta:
-        verbose_name = 'Post'
-        verbose_name_plural = 'Posts'
         ordering = ['-created_at']
 
     def __str__(self):
@@ -114,11 +110,13 @@ class Post(models.Model):
         # Return all parent comments of an item.
         return Comment.objects.filter_by_parent(self) 
 
+
 class CommentLike(PostAbstractRelationship):
     """
     A relationship model between the comment and its likes.
     """
     comment = models.ForeignKey('Comment', on_delete=models.CASCADE)
+
 
 class CommentManager(models.Manager):
     """
@@ -130,6 +128,7 @@ class CommentManager(models.Manager):
         """
         qs = self.get_queryset().filter(post=post, reply=None)
         return qs
+
 
 class Comment(models.Model):
     """

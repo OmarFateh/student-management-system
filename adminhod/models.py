@@ -7,6 +7,7 @@ from django_countries.fields import CountryField
 
 from accounts.models import User
 
+
 def adminhod_image(instance, filename):
     """
     Upload the adminhod image into the path and return the uploaded image path.
@@ -17,6 +18,7 @@ def adminhod_image(instance, filename):
     if os.path.exists(full_path):
         os.remove(full_path)
     return profile_pic_name
+
 
 class UserCommonInfo(models.Model):
     """
@@ -40,6 +42,7 @@ class UserCommonInfo(models.Model):
 
     class Meta:
         abstract = True
+
 
 class AdminHOD(UserCommonInfo):
     """

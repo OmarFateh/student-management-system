@@ -50,7 +50,11 @@
             class="btn btn-link text-secondary text-sm comment-like py-0 px-0 mr-2"
             {% endif %}
             data-href='{{ comment.get_api_like_url }}'>
-            Like 
+            {% if comment.user in comment.likes.all %}
+            Unlike
+            {% else %} 
+            Like
+            {% endif %} 
         </button>
         <button type="button" class="btn btn-link text-secondary text-sm comment-reply py-0 px-0 mr-2">
             reply 

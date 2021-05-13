@@ -1,6 +1,7 @@
 from announcement.models import Announcement
 from course.models import Subject
 
+
 def announcements_count(request):
     """
     Custom context processor for announcements count.

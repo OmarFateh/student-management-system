@@ -329,6 +329,7 @@
         var postId = like.attr('value');
         var likeUrl = like.attr('data-href');
         var likesCount = $('.post-like-count' + postId);
+        var likesText = $('.post-like-text' + postId);
 
         $.ajax({
             type: 'GET',
@@ -339,11 +340,13 @@
                 likesCount.text(data.likes_count)
                 if (data.liked) {
                     like.removeClass('text-secondary');
-                    like.addClass('text-primary')
+                    like.addClass('text-primary');
+                    likesText.text('Unlike');
                 }
                 else {
                     like.removeClass('text-primary');
-                    like.addClass('text-secondary')
+                    like.addClass('text-secondary');
+                    likesText.text('Like');
                 }
                 if (data.likes_count == '0') {
                     likesCount.parent().hide();
@@ -372,11 +375,13 @@
                 likesCount.text(data.likes_count)
                 if (data.liked) {
                     like.removeClass('text-secondary');
-                    like.addClass('text-primary')
+                    like.addClass('text-primary');
+                    like.text('Unlike');
                 }
                 else {
                     like.removeClass('text-primary');
-                    like.addClass('text-secondary')
+                    like.addClass('text-secondary');
+                    like.text('Like');
                 }
                 if (data.likes_count == '0') {
                     likesCount.parent().hide();

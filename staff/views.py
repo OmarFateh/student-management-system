@@ -9,10 +9,12 @@ from course.models import Course, Subject
 from student.models import Student
 from attendance.models import Attendance, AttendanceReport
 from posts.models import Post
+from notifications.models import Notification
 from accounts.forms import UpdateUserForm
 from adminhod.staff.forms import UpdateStaffForm
 from posts.utils import paginate_posts
 from posts.forms import CommentForm
+
 
 def staff_dashboard(request):
     """
@@ -59,7 +61,6 @@ def staff_dashboard(request):
         'feedback_total':feedback_total,
         'feedback_replied':feedback_replied,
         'feedback_unreplied':feedback_unreplied,
-
     }
     return render(request, 'staff/dashboard.html', context)
 
@@ -67,6 +68,7 @@ def staff_profile(request, staff_slug):
     """
     Take staff slug, get the profile of this staff.
     Display his profile detail.
+    Display his notifications.
     Update his profile data.
     """
     # get current staff by its slug.
@@ -81,7 +83,11 @@ def staff_profile(request, staff_slug):
     page_number = request.GET.get('page', 1)
     page_obj_posts = paginate_posts(posts, page_number) 
     # comment form.
-    comment_form = CommentForm(auto_id=False)    
+    comment_form = CommentForm(auto_id=False) 
+    # get staff notifications.
+    notifications = Notification.objects.notifications_received(staff.user)
+    # update staff notifications from not seen to seen. 
+    Notification.objects.notifications_updated(staff.user)   
     # update staff profile.
     is_update = True
     data = dict()
@@ -121,5 +127,6 @@ def staff_profile(request, staff_slug):
         'user_form':user_form, 
         'form': staff_form,
         'comment_form':comment_form,
+        'notifications':notifications,
     }    
     return render(request, 'staff/staff_profile.html', context)

@@ -7,6 +7,7 @@ from course.models import Course, Subject
 from attendance.models import Attendance, AttendanceReport
 from feedback.models import FeedbackStudent
 from posts.models import Post
+from notifications.models import Notification
 from accounts.forms import UpdateUserForm
 from adminhod.student.forms import UpdateStudentForm
 from posts.utils import paginate_posts
@@ -60,6 +61,7 @@ def student_profile(request, student_slug):
     """
     Take student slug, get the profile of this student.
     Display his profile detail.
+    Display his notifications.
     Update his profile data.
     """
     # get current student by its slug.
@@ -74,7 +76,11 @@ def student_profile(request, student_slug):
     page_number = request.GET.get('page', 1)
     page_obj_posts = paginate_posts(posts, page_number) 
     # comment form.
-    comment_form = CommentForm(auto_id=False)     
+    comment_form = CommentForm(auto_id=False)
+    # get student notifications.
+    notifications = Notification.objects.notifications_received(student.user)
+    # update student notifications from not seen to seen. 
+    Notification.objects.notifications_updated(student.user)
     # update student profile.
     is_update = True
     data = dict()
@@ -114,5 +120,6 @@ def student_profile(request, student_slug):
         'user_form':user_form, 
         'form': student_form,
         'comment_form':comment_form,
+        'notifications':notifications,
     }    
     return render(request, 'student/student_profile.html', context)           

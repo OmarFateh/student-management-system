@@ -22,7 +22,7 @@ env = environ.Env(
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -46,12 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    # third party apps
-    'django_countries',
-    'crispy_forms',
-    'rest_framework',
-
+    
     # my apps
     'accounts',
     'adminhod',
@@ -66,6 +61,12 @@ INSTALLED_APPS = [
     'contact',
     'posts',
     'feed',
+    'notifications',
+
+    # third party apps
+    'django_countries',
+    'crispy_forms',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -98,6 +99,7 @@ TEMPLATES = [
                 'feedback.context_processors.feedback_count',
                 'announcement.context_processors.announcements_count',
                 'assignment.context_processors.assignments_count',
+                'notifications.context_processors.notifications_count',
             ],
         },
     },
@@ -175,3 +177,9 @@ vars().update(EMAIL_CONFIG)
 
 # Unicode slugs
 ALLOW_UNICODE_SLUGS = True
+
+# Graph Models 
+GRAPH_MODELS = {
+    'all_applications': True,
+    'group_models': True,
+}

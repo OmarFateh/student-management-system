@@ -12,11 +12,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 from feed.staff.views import staff_posts
-from feed.student.views import student_posts 
+from feed.student.views import student_posts
+from notifications.models import Notification 
 from .models import Post, Comment
 from .forms import PostForm, CommentForm
 
 User = get_user_model()
+
 
 @csrf_exempt
 def post_detail(request, post_slug=None):
@@ -260,10 +262,6 @@ class PostLikeAPIToggle(APIView):
         post = get_object_or_404(Post, slug=post_slug)
         # get current user.
         user = request.user
-        # # set the notification sender as the requested user's profile.
-        # sender = user.userprofile
-        # # set the notification receiver as the item's owner. 
-        # receiver = item_obj.owner.userprofile
         updated = False
         liked = False
         # check if requested user is authenticated or not.
@@ -273,17 +271,19 @@ class PostLikeAPIToggle(APIView):
                 liked = False
                 # remove user from item's likes.
                 post.likes.remove(user)
-                # # get the like notification for this item with user as a sender, and profile as a receiver.
-                # notify = get_object_or_404(Notification, sender=sender, receiver=receiver, item=post, notification_type='like')
-                # # delete like notification.
-                # notify.delete()
+                # if current user is not the post's owner.
+                if user != post.user:
+                    # set the post like notification to be inactive.
+                    Notification.objects.set_inactive(sender=user, receiver=post.user, notification_type='like', post=post)
             # if not.    
             else:
                 liked = True
                 # add user to item's likes.
                 post.likes.add(user)
-                # # create a like notification for this item with user as a sender, and profile as a receiver.  
-                # Notification.objects.create(sender=sender, receiver=receiver, item=item_obj, notification_type='like') 
+                # if current user is not the post's owner.
+                if user != post.user:
+                    # create a like notification for this post with user as a sender, and post's owner as a receiver.  
+                    Notification.objects.create(sender=user, receiver=post.user, post=post, notification_type='like') 
             updated = True
         # get likes count of this item.    
         likes_count = post.likes.count()
@@ -292,6 +292,7 @@ class PostLikeAPIToggle(APIView):
         data['liked'] = liked
         data['likes_count'] = likes_count
         return Response(data)
+
 
 class CommentLikeAPIToggle(APIView):
     """
@@ -310,12 +311,6 @@ class CommentLikeAPIToggle(APIView):
         comment = get_object_or_404(Comment, pk=comment_id)
         # get current user.
         user = request.user
-        # # set the notification sender as the requested user's profile.
-        # sender = user.userprofile
-        # # set the notification receiver as the comment's owner. 
-        # receiver = comment_obj.owner.userprofile
-        # # set the notification item as the item of this comment.
-        # item_obj = comment_obj.item
         updated = False
         liked = False
         # check if requested user is authenticated or not.
@@ -325,17 +320,21 @@ class CommentLikeAPIToggle(APIView):
                 liked = False
                 # remove user from comment's likes. 
                 comment.likes.remove(user)
-                # # get the like comment notification for this comment with user as a sender, profile as a receiver, and comment's item as a item.
-                # notify = get_object_or_404(Notification, sender=sender, receiver=receiver, item=item_obj, comment=comment_obj, notification_type='comment_like')
-                # # delete like comment notification.
-                # notify.delete()
+                # if current user is not the comment's owner.
+                if user != comment.user:
+                    # set the comment like notification to be inactive.
+                    Notification.objects.set_inactive(sender=user, receiver=comment.user, 
+                            notification_type='comment_like', post=comment.post, comment=comment)
             # if not.
             else:
                 liked = True
                 # add user to comment's likes. 
                 comment.likes.add(user)
-                # # create like comment notification for this comment with user as a sender, profile as a receiver, and comment's item as a item.
-                # Notification.objects.create(sender=sender, receiver=receiver, item=item_obj, comment=comment_obj, notification_type='comment_like') 
+                # if current user is not the comment's owner.
+                if user != comment.user:
+                    # create like comment notification for this comment with user as a sender, comment's owner as a receiver, and comment's item as a item.
+                    Notification.objects.create(sender=user, receiver=comment.user, 
+                                        post=comment.post, comment=comment, notification_type='comment_like') 
             updated = True
         # get likes count of this comment.    
         comment_likes_count = comment.likes.count()

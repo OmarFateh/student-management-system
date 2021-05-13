@@ -8,6 +8,7 @@ from django_countries.fields import CountryField
 
 from adminhod.models import UserCommonInfo
 
+
 def student_image(instance, filename):
     """
     Upload the student image into the path and return the uploaded image path.
@@ -18,6 +19,7 @@ def student_image(instance, filename):
     if os.path.exists(full_path):
         os.remove(full_path)
     return profile_pic_name
+
 
 class SessionYear(models.Model):
     """
@@ -80,6 +82,7 @@ class StudentManager(models.Manager):
                 students_list_data.append(student_data)        
         return students_list_data            
 
+
 class Student(UserCommonInfo):
     """
     Student model.
@@ -114,4 +117,3 @@ class Student(UserCommonInfo):
     def filename(self):
         # return file name of student's photo.
         return self.photo.name.split('/')[-1]
-            

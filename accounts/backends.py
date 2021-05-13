@@ -1,6 +1,8 @@
 from django.contrib.auth.backends import ModelBackend
+from django.contrib.auth import get_user_model
 
-from .models import User
+User = get_user_model()
+
 
 class EmailBackend(ModelBackend):
     """
@@ -10,11 +12,13 @@ class EmailBackend(ModelBackend):
         # Check the email and password of a user, and return a user.
         try:
             user = User.objects.filter(email__iexact=username).first()
-            if user.check_password(password):
-                return user
+            if user:
+                if user.check_password(password) and self.user_can_authenticate(user):
+                    return user
+            else:
+                return None
         except User.DoesNotExist:
-            return None
-
+            return None        
 
     def get_user(self, user_id):
         try:

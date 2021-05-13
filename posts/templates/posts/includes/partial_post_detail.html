@@ -74,7 +74,14 @@
             class="btn btn-link text-secondary text-sm post-like py-0 px-0"
             {% endif %}
             data-href='{{ post.get_api_like_url }}'>
-            <i class="far fa-thumbs-up mr-1"></i>Like 
+            <i class="far fa-thumbs-up mr-1"></i>
+            <span class='post-like-text'>
+                {% if is_liked_user %}
+                Unlike
+                {% else %} 
+                Like
+                {% endif %} 
+            </span> 
         </button>
         <button type="button" class="btn btn-link text-secondary text-sm ml-auto post-comment">
             <i class="far fa-comments mr-1"></i> Comment
