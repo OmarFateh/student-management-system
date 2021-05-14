@@ -113,6 +113,7 @@ DATABASES = {
         'NAME': 'dbi8jol6g1d9k6',
         'USER': 'ibucxgcnhsfgwy',
         'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'HOST': 'ec2-63-34-97-163.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }
