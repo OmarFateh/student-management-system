@@ -164,7 +164,6 @@ STATICFILES_DIRS = [ BASE_DIR / "static",
 # Media files (Uploaded Images)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Authentication Backends
@@ -177,9 +176,3 @@ vars().update(EMAIL_CONFIG)
 
 # Unicode slugs
 ALLOW_UNICODE_SLUGS = True
-
-# Graph Models 
-GRAPH_MODELS = {
-    'all_applications': True,
-    'group_models': True,
-}
