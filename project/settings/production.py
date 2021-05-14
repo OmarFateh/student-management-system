@@ -112,8 +112,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dbi8jol6g1d9k6',
         'USER': 'ibucxgcnhsfgwy',
+        'PASSWORD': '24e9b74546b1046318827e87c331fcb20b77ad6f8888af6e7d9f0e32e0e8fc26',
         'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': 'ec2-63-34-97-163.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
 }
@@ -157,7 +157,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = BASE_DIR / "static"
+STATICFILES_DIRS = [BASE_DIR / "static"]
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Media files (Uploaded Images)
