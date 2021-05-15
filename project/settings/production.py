@@ -22,7 +22,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = 'h$)g()(@+a&kp#xd3eoy2quq*tio&u%x&j@#p3*7580cb+pe68'
+# SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -112,7 +113,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'dbi8jol6g1d9k6',
         'USER': 'ibucxgcnhsfgwy',
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
+        'PASSWORD': '24e9b74546b1046318827e87c331fcb20b77ad6f8888af6e7d9f0e32e0e8fc26',
+        # 'PASSWORD': os.environ.get('DB_PASSWORD'),
         'HOST': 'ec2-63-34-97-163.eu-west-1.compute.amazonaws.com',
         'PORT': '5432',
     }
@@ -165,8 +167,10 @@ MEDIA_URL = '/student-management-system/'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 CLOUDINARY_STORAGE = {
     'CLOUD_NAME': 'dtao7b1hg',
-    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
-    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
+    'API_KEY': '159866617856165',
+    'API_SECRET': 'A04KLeInxqS1Mw_lZxlSgT__uEs',
+    # 'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    # 'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
 
 # Authentication Backends
@@ -179,7 +183,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'fatehomar0@gmail.com'
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_HOST_PASSWORD = 'ltpopqfqbdoweugo'
+# EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 # Unicode slugs
 ALLOW_UNICODE_SLUGS = True

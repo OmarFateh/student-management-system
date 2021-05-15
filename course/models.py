@@ -1,6 +1,7 @@
 from django.db import models
 from django.urls import reverse
 
+
 class Course(models.Model):
     """
     Course model.

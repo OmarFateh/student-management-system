@@ -13,7 +13,8 @@ class RestrictionRolesMiddleWare(MiddlewareMixin):
         if user.is_authenticated:
             if user.user_type == 'HOD':
                 if modulename not in [
-                    'adminhod.views', 
+                    'adminhod.views',
+                    'adminhod.session.views',  
                     'adminhod.staff.views', 
                     'adminhod.student.views', 
                     'accounts.views', 
