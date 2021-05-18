@@ -108,6 +108,22 @@ button:disabled {
     margin-left: 50px !important;
 }
 
+/* profile picture */
+.profile-user-img {
+    width: 80px !important;
+    height: 80px !important;
+}
+
+.profile-contact-img {
+    width: 100px !important;
+    height: 100px !important;
+}
+
+.user-logo-img {
+    width: 30px !important;
+    height: 30px !important;
+}
+
 /* dropdowns  */
 
 .dropdown-menu-lg {
