@@ -1,13 +1,6 @@
 from django.contrib import admin
 
-from .models import Post, PostLike, Comment #, PostFavourite
-
-
-# class PostFavouriteAdmin(admin.TabularInline):
-#     """
-#     Display the post favourite model as a tabular inline.
-#     """
-#     model = PostFavourite
+from .models import Post, PostLike, Comment, CommentLike
 
 
 class PostLikeAdmin(admin.TabularInline):
@@ -16,19 +9,34 @@ class PostLikeAdmin(admin.TabularInline):
     """
     model = PostLike
 
+
 class PostAdmin(admin.ModelAdmin):
     """
-    Override the user profile admin and customize the posts display.
+    Override the post admin and customize the posts display.
     """
-    inlines       = [PostLikeAdmin] #,PostFavouriteAdmin
-    # list_display  = []
-    # search_fields = []
+    inlines = [PostLikeAdmin]
 
     class Meta:
         model = Post
 
 
+class CommentLikeAdmin(admin.TabularInline):
+    """
+    Display the comment like model as a tabular inline.
+    """
+    model = CommentLike
+
+
+class CommentAdmin(admin.ModelAdmin):
+    """
+    Override the comment admin and customize the comments display.
+    """
+    inlines = [CommentLikeAdmin]
+
+    class Meta:
+        model = Comment
+
 
 # models admin site registeration 
 admin.site.register(Post, PostAdmin)
-admin.site.register(Comment)
+admin.site.register(Comment, CommentAdmin)

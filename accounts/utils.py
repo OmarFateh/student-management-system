@@ -3,6 +3,7 @@ import string
 
 from django.contrib.auth import get_user_model
 
+
 def random_string_generator(length=10):
     """
     Generate a random alphanumeric string of letters and digits of a given fixed length.

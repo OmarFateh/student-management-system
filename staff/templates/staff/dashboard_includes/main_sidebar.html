@@ -186,8 +186,8 @@
                     </ul>
                 </li> 
                 {% url 'feed-staff:staff-feed' as feed_staff %}
-                {% url 'contact-staff:staff-contacts-students' as staff_contact_students %}
-                {% is_in request.path feed_staff staff_contact_students as feed_active %}
+                <!-- {% url 'contact-staff:staff-contacts-students' as staff_contact_students %} -->
+                {% is_in request.path feed_staff as feed_active %}
                 <li class="nav-item has-treeview {% if feed_active %} menu-open {% endif %}">
                     <a href="#" class="nav-link {% if feed_active %} active {% endif %}">
                         <i class="nav-icon fas fa-comments"></i>
@@ -204,7 +204,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ staff_contact_students }}" class="nav-link {% if request.path == staff_contact_students %} active {% endif %}">
+                            <a href="" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Chat</p>
                             </a>

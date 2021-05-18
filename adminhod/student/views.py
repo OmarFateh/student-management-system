@@ -11,6 +11,7 @@ from adminhod.staff.views import add_staff_student_form, update_staff_student_fo
 from .forms import AddStudentForm, UpdateStudentAdminForm
 from .utils import filter_students
 
+
 def add_student(request):
     """
     Add student.

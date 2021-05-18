@@ -15,6 +15,7 @@ from adminhod.utils import search, paginate
 from .forms import AddStaffForm, UpdateStaffAdminForm
 from .utils import filter_staffs
 
+
 def add_staff_student_form(request, form, template_name, user_type):
     """
     Take form, template name, and user's type.
@@ -126,8 +127,6 @@ def update_staff_student_form(request, form, template_name, staff_student):
             staff_student.user.full_name = user_form.cleaned_data.get('full_name')
             staff_student.user.email = user_form.cleaned_data.get('email')
             staff_student.user.save()
-            staff_student.photo = form.cleaned_data.get('photo')
-            staff_student.save()
             data['form_is_valid'] = True
             data['is_update'] = True
             # update student.

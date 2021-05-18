@@ -1,5 +1,5 @@
 <!-- form start -->
-<form role="form" action='{{ post.get_update_absolute_url }}' method='POST' class="js-post-update-form">
+<form role="form" action='{{ post.get_update_absolute_url }}' method='POST' class="js-post-update-form" enctype='multipart/form-data'>
     {% csrf_token %}
     <!-- modal header -->
     <div class="modal-header">

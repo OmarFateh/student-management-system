@@ -74,5 +74,5 @@ def paginate(qs, page_number=1):
     """
     Take a queryset, and page number with a default value of 1, and paginate the queryset.
     """
-    paginator_qs = Paginator(qs, 1) # display 10 objects per page.
+    paginator_qs = Paginator(qs, 10) # display 10 objects per page.
     return paginator_qs.get_page(page_number)

@@ -13,7 +13,7 @@
 <!-- modal body -->
 <div class="modal-body">
     {% for user in likes %}
-    <div class="user-block d-flex align-items-center justify-content-between w-100">
+    <div class="user-block d-flex align-items-center justify-content-between w-100 mb-3">
         {% if user.staff %} 
             <a href="{{ user.staff.get_absolute_url }}" class="d-flex align-items-center">
                 <img class="img-circle img-bordered-sm" src="{{ user.staff.photo.url }}" alt="user image">

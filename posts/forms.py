@@ -2,6 +2,7 @@ from django import forms
 
 from .models import Post, Comment
 
+
 class PostForm(forms.ModelForm):
     """
     Post add and update model form
@@ -10,7 +11,7 @@ class PostForm(forms.ModelForm):
         required=False, 
         widget=forms.FileInput(attrs={
             # 'class':'custom-file-input', 
-            # 'name':'image',
+            'name':'image',
             # 'id':'ImageInputPost'
             })
     )
@@ -34,6 +35,10 @@ class PostForm(forms.ModelForm):
         #         attrs={'class':'custom-file-input', 'id':'ImageInputPost'} 
         # )}
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop("request", None)
+        super(PostForm, self).__init__(*args, **kwargs)
+
     def clean(self):
         """
         Validate if at least one of content and image field is not empty.
@@ -44,6 +49,17 @@ class PostForm(forms.ModelForm):
             raise forms.ValidationError("You must either write post or add picture.")
         return self.cleaned_data    
 
+    def save(self, commit=True, *args, **kwargs):
+        """
+        Override the save method and
+        """
+        instance = super().save(commit=False, *args, **kwargs)
+        instance.user = self.request.user
+        if commit:
+            instance.save()
+        return instance
+
+
 class CommentForm(forms.ModelForm):
     """
     Comment model form
@@ -52,7 +68,6 @@ class CommentForm(forms.ModelForm):
         label='',
         widget=forms.Textarea(attrs={
             'class':'form-control float-right input-add-comment',
-            # 'id':'add-comment', 
             'name':'content', 
             'placeholder':"Type a comment...",
             'rows':'1',

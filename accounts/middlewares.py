@@ -33,6 +33,7 @@ class RestrictionRolesMiddleWare(MiddlewareMixin):
                 if user.previously_logged_in:
                     if modulename not in [
                         'staff.views', 
+                        'student.views',
                         'accounts.views', 
                         'announcement.staff.views',
                         'assignment.staff.views',
@@ -56,7 +57,8 @@ class RestrictionRolesMiddleWare(MiddlewareMixin):
             elif user.user_type == 'STUDENT':
                 if user.previously_logged_in:
                     if modulename not in [
-                        'student.views', 
+                        'student.views',
+                        'staff.views',  
                         'accounts.views', 
                         'announcement.student.views',
                         'assignment.student.views',

@@ -66,26 +66,27 @@ def add_post(request):
     data = dict()
     # check if the request method is post.
     if request.method == 'POST':
-        post_form = PostForm(request.POST, request.FILES)
+        post_form = PostForm(request.POST, request.FILES, request=request)
         if post_form.is_valid():
             # add new post.
-            form = post_form.save(commit=False)
-            form.user = request.user
-            form.save()
+            post_form.save()
+            # form = post_form.save(commit=False)
+            # form.user = request.user
+            # form.save()
             data["form_is_valid"] = True
             data["is_add"] = True
-            if request.user.staff:
+            if request.user.user_type == "STAFF":
                 posts = staff_posts(request)
-            elif request.user.student:
+            elif request.user.user_type == "STUDENT":
                 posts = student_posts(request)
             # comment form.
             comment_form = CommentForm(auto_id=False)         
             context = {"posts":posts, "request":request, "comment_form":comment_form}
-            data["html_post_list"] = render_to_string("posts/includes/partial_post_list.html", context)
+            data["html_post_list"] = render_to_string("posts/includes/partial_post_list.html", context, request=request)
         else:
             data["form_is_valid"] = False
     else:
-        post_form = PostForm()
+        post_form = PostForm(request=request)
     context = {"form":post_form}
     data["html_form"] = render_to_string("posts/includes/partial_post_add.html", context, request=request)    
     return JsonResponse(data)               
@@ -100,24 +101,24 @@ def update_post(request, post_slug=None):
     data["is_update"] = True
     # check if the request method is post.
     if request.method == 'POST':
-        post_form = PostForm(request.POST, request.FILES, instance=post)
+        post_form = PostForm(request.POST, request.FILES, instance=post, request=request)
         if post_form.is_valid():
             # update post.
             post_form.save()
             data["form_is_valid"] = True
-            if request.user.staff:
+            if request.user.user_type == "STAFF":
                 posts = staff_posts(request)
-            elif request.user.student:
+            elif request.user.user_type == "STUDENT":
                 posts = student_posts(request)
             # comment form.
             comment_form = CommentForm(auto_id=False)        
             context = {'posts':posts, 'request':request, "comment_form":comment_form}
-            data["html_post_list"] = render_to_string('posts/includes/partial_post_list.html', context)
-            data["html_post_detail"] = render_to_string('posts/includes/partial_post_detail.html', {'post':post, 'request':request})
+            data["html_post_list"] = render_to_string('posts/includes/partial_post_list.html', context, request=request)
+            data["html_post_detail"] = render_to_string('posts/includes/partial_post_detail.html', {'post':post, 'request':request}, request=request)
         else:
             data["form_is_valid"] = False 
     else:
-        post_form = PostForm(instance=post)
+        post_form = PostForm(instance=post, request=request)
     context = {"post": post, "form":post_form}
     data["html_form"] = render_to_string('posts/includes/partial_post_update.html', context, request=request)    
     return JsonResponse(data)               
@@ -134,14 +135,14 @@ def delete_post(request, post_slug=None):
         post.delete()
         data['form_is_valid'] = True 
         data['is_update'] = False 
-        if request.user.staff:
+        if request.user.user_type == "STAFF":
             posts = staff_posts(request)
-        elif request.user.student:
+        elif request.user.user_type == "STUDENT":
             posts = student_posts(request)
         # comment form.
         comment_form = CommentForm(auto_id=False)        
         context = {'posts':posts, 'request':request, "comment_form":comment_form}
-        data['html_post_list'] = render_to_string('posts/includes/partial_post_list.html', context)
+        data['html_post_list'] = render_to_string('posts/includes/partial_post_list.html', context, request=request)
     else:
         context = {'post': post}
         data['html_form'] = render_to_string('posts/includes/partial_post_delete.html', context, request=request)
@@ -183,7 +184,7 @@ def update_comment(request, comment_id=None):
             # get comment's post.
             post = get_object_or_404(Post, pk=comment.post.id)
             context = {'post':post, 'request':request}
-            data['html_comment_list'] = render_to_string('posts/includes/partial_comment_list.html', context)
+            data['html_comment_list'] = render_to_string('posts/includes/partial_comment_list.html', context, request=request)
         else:
             data['form_is_valid'] = False 
     else:
@@ -209,8 +210,8 @@ def delete_comment(request, comment_id=None):
         # get post comments count.
         comments_count = post.comments.count()   
         context = {'post':post, 'request':request}
-        data['html_comment_list'] = render_to_string('posts/includes/partial_comment_list.html', context)
-        data['html_comment_count'] = render_to_string('posts/includes/partial_comment_count.html', {'comments_count':comments_count})
+        data['html_comment_list'] = render_to_string('posts/includes/partial_comment_list.html', context, request=request)
+        data['html_comment_count'] = render_to_string('posts/includes/partial_comment_count.html', {'comments_count':comments_count}, request=request)
     else:
         context = {'comment': comment}
         data['html_form'] = render_to_string('posts/includes/partial_comment_delete.html', context, request=request)

@@ -88,7 +88,6 @@
             })
                 .done(function (response) {
                     var json_data = JSON.parse(response);
-                    console.log(json_data)
                     var div_data = "<div class='form-group'><label>Student Attendance</label></div>";
                     div_data += "<div class='form-group'><div class='row'>";
                     for (key in json_data) {
@@ -150,8 +149,7 @@
                         setTimeout(function () { $('.message').fadeOut('slow'); }, 5000);
                     }
                     $('#manage-student-data').hide();
-                    // $('#attendance-date-data').hide();
-                    // $('#fetch-manage-students').hide();
+                    $(window).scrollTop(0);
                 })
                 .fail(function () {
                     Toast.fire({

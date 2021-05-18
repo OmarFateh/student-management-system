@@ -93,6 +93,7 @@
                 <div id="partial-comment-list{{ post.id }}">
                     {% include 'posts/includes/partial_comment_list.html' %}
                 </div>
+                {% if not post.restrict_comment %}
                 <div class="d-flex align-items-center w-100">
                     <img 
                     {% if request.user.staff %}
@@ -106,7 +107,12 @@
                         {% include 'posts/includes/partial_comment_form.html' %}
                         <button type="submit" class="btn btn-primary ml-2 publish-comment" disabled>Post</button>
                     </form>      
-                </div>    
+                </div> 
+                {% else %} 
+                <div class="d-flex align-items-center w-100">
+                    <span><strong>Comments are turned off for this post.</strong></span>
+                </div>
+                {% endif %}    
             </div>
             <!-- /.post -->
         </div>

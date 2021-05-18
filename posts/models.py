@@ -41,6 +41,7 @@ class PostManager(models.Manager):
     """
     def feed(self, students_ids_list, staff_ids_list):
         """
+        Take students and staff's ids lists, and get all their posts.
         """
         return self.get_queryset().filter(
             Q(user__id__in=students_ids_list)|
@@ -59,7 +60,7 @@ class Post(models.Model):
     Post model.
     """
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
-    slug = models.CharField(max_length=10, unique=True, null=True, blank=True)
+    slug = models.CharField(max_length=255, unique=True, null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     image = models.ImageField(upload_to=post_image, null=True, blank=True)
     likes = models.ManyToManyField(User, related_name='likes', blank=True, through=PostLike)
@@ -145,8 +146,6 @@ class Comment(models.Model):
     objects = CommentManager() 
 
     class Meta:
-        verbose_name = 'Comment'
-        verbose_name_plural = 'Comments'
         ordering = ['created_at']
 
     def __str__(self):

@@ -50,7 +50,6 @@ def add_announcement_form(request, form, template_name, adminhod=None, staff=Non
                     adminhod=adminhod, 
                     is_adminhod=True,
                     is_staff=False,
-                    is_seen=False,
                 )
                 # Display success message.
                 messages.success(request, f'New Announcement has been added successfully.', extra_tags='add-announcements-adminhod')
@@ -70,7 +69,6 @@ def add_announcement_form(request, form, template_name, adminhod=None, staff=Non
                     staff=staff, 
                     is_staff=True,
                     is_adminhod=False,
-                    is_seen=False,
                 )
                 # Display success message.
                 messages.success(request, f'New Announcement has been added successfully.', extra_tags='add-announcements-staff')

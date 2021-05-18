@@ -91,7 +91,6 @@
                     $(document.body).off('change', '#id_content');
                     $(document.body).on('keyup change', '#id_content,#id_image', function () {
                         var content = $('#id_content').val();
-                        console.log(content)
                         var image = $('#id_image').val();
                         if (content == '' && !content.trim().length && image == '') {
                             $('#publish-post').attr('disabled', true);

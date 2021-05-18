@@ -4,6 +4,7 @@ from student.models import Student, SessionYear
 from course.models import Course
 from adminhod.staff.forms import BaseAddStaffStudentForm
 
+
 class AddStudentForm(BaseAddStaffStudentForm):
     """
     Add Student model form.
@@ -40,6 +41,7 @@ class AddStudentForm(BaseAddStaffStudentForm):
         self.request = kwargs.pop("request", None)
         super(AddStudentForm, self).__init__(*args, **kwargs)
         self.fields["course"].queryset = Course.objects.filter(adminhod__user__id=self.request.user.id)    
+
 
 class UpdateStudentAdminForm(AddStudentForm):
     """

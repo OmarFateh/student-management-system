@@ -10,6 +10,7 @@ from adminhod.utils import paginate
 from .forms import UploadAssignmentform
 from .utils import filter_students_assignments
 
+
 def view_assignments(request):
     """
     Display all assignments of current student, and update them from not seen to be seen.
@@ -78,7 +79,7 @@ def upload_assignment(request, assignment_id):
             subjects_ids = Subject.objects.student_subjects_ids(request.user)
             # get all assignments of current student.
             assignments = Assignment.objects.student_assignments(subjects_ids, request.user)
-            data['html_assignment_list'] = render_to_string('student/includes/partial_assignment_list.html', {'assignments': assignments, 'user':request.user})
+            data['html_assignment_list'] = render_to_string('student/includes/partial_assignment_list.html', {'assignments': assignments, 'request':request})
         else:
             data['form_is_valid'] = False   
     else:

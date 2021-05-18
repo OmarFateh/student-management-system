@@ -2,6 +2,7 @@ from django.db import models
 from django.urls import reverse
 from django.db.models import Q
 
+
 class AnnouncementManager(models.Manager):
     """
     Announcement model manager.

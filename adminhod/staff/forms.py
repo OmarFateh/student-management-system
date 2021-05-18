@@ -7,6 +7,7 @@ from django_countries.widgets import CountrySelectWidget
 
 from staff.models import Staff
 
+
 class DateInputWidget(forms.DateInput):
     """
     Custom date input widget. 

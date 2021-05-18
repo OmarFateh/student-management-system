@@ -27,10 +27,10 @@
         </h3>
 
         <div class="timeline-body">
-            {% if announcement.content|length > 10 %}
-                {{ announcement.content|slice:":10" }}
+            {% if announcement.content|length > 50 %}
+                {{ announcement.content|slice:":50" }}
                 <span id="dots{{ announcement.id }}">.....</span>
-                <span id="more{{ announcement.id }}" style="display: none;">{{ announcement.content|slice:"10:" }}</span>
+                <span id="more{{ announcement.id }}" style="display: none;">{{ announcement.content|slice:"50:" }}</span>
                 <a class="btn btn-link text-primary btn-sm" id="readmore{{ announcement.id }}" style="cursor: pointer; font-weight: 500;" onclick="readMoreFunction({{ announcement.id }})">Read more</a>
             {% else %}
                 {{ announcement.content }}

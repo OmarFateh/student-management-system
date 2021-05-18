@@ -8,6 +8,7 @@ from course.models import Subject
 from student.models import Student, SessionYear
 from attendance.models import Attendance, AttendanceReport
 
+
 # Take Attendance
 def take_attendance(request):
     """

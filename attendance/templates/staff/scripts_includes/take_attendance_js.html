@@ -51,9 +51,7 @@
                     div_data += "<div class='form-group'><div class='row'>";
                     for (key in json_data) {
                         div_data += "<div class='col-lg-4'><div class='form-check mt-2'><input type='checkbox' checked='checked' name='student_data[]' value='"+json_data[key]['id']+"'><label class='form-check-label ml-1'>"+json_data[key]['name']+"</label></div></div>";
-
                     }
-                    // <div class='icheck-primary d-inline'><input type='checkbox' id='checkbox' checked='checked' name='student-data[]' value='" + json_data[key]['id'] + "'><label for='checkbox'>" + json_data[key]['name'] + "</label></div></div>";
                     div_data += "</div></div>";
                     div_data += "<div class='form-group'>";
                     div_data += "<button name='save-attendance' class='btn btn-success btn-block' id='save-attendance'>Save Attendance</button>"
@@ -97,6 +95,7 @@
                     data: { student_data: studentData, attendance_date: attendanceDate, subject: subject, session_year: sessionYear },
                 })
                     .done(function (response) {
+                        $(window).scrollTop(0);
                         if (response == 'CREATED') {
                             $("#success-save-attendance").html("Attendance has been saved successfully.");
                             $("#success-save-attendance").show();
@@ -112,7 +111,8 @@
                             $("#error-save-attendance").show();
                             setTimeout(function () { $('.message').fadeOut('slow'); }, 5000);
                         }
-                        $('#student-data').hide();
+                        $(window).scrollTop(0);
+                        $('#student-data').load();
                     })
                     .fail(function () {
                         Toast.fire({

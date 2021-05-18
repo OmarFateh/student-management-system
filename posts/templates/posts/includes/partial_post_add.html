@@ -1,5 +1,5 @@
 <!-- form start -->
-<form role="form" action="{% url 'posts:add-post' %}" method='POST' class="js-post-add-form">
+<form role="form" action="{% url 'posts:add-post' %}" method='POST' class="js-post-add-form" enctype='multipart/form-data'>
     {% csrf_token %}
     <!-- modal header -->
     <div class="modal-header">

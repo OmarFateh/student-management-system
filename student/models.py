@@ -14,10 +14,10 @@ def student_image(instance, filename):
     Upload the student image into the path and return the uploaded image path.
     """
     pic_extention = filename.split('.')[-1]
-    profile_pic_name = f'student/{instance.user.full_name}/profile.{pic_extention}'
-    full_path = os.path.join(settings.MEDIA_ROOT, profile_pic_name)
-    if os.path.exists(full_path):
-        os.remove(full_path)
+    profile_pic_name = f'student/{instance.user.full_name}/{filename}'
+    # full_path = os.path.join(settings.MEDIA_ROOT, profile_pic_name)
+    # if os.path.exists(full_path):
+    #     os.remove(full_path)
     return profile_pic_name
 
 

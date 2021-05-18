@@ -3,12 +3,14 @@ from django.db import models
 from course.models import Subject
 from student.models import Student, SessionYear
 
+
 class AttendanceManager(models.Manager):
     """
     Override the attendance manager.
     """
     def get_attendance_dates_list_data(self, subject, session_year):
         """
+        Take subject and session year, and get list of attendance dates.
         """
         attendances = self.get_queryset().filter(subject=subject, session_year=session_year)
         attendance_dates_list_data = []
@@ -17,6 +19,7 @@ class AttendanceManager(models.Manager):
                 attendance_data = {'id':attendance.id, 'attendance_date':str(attendance.attendance_date)}
                 attendance_dates_list_data.append(attendance_data)
         return attendance_dates_list_data           
+
 
 class Attendance(models.Model):
     """
@@ -38,6 +41,7 @@ class Attendance(models.Model):
     def __str__ (self):
         # Return user name.
         return f'{self.session_year} | {self.subject} | {self.attendance_date}'    
+
 
 class AttendanceReportManager(models.Manager):
     """
@@ -70,6 +74,7 @@ class AttendanceReportManager(models.Manager):
                 attendance_data = {'attendance_date':str(attendance_report.attendance.attendance_date), 'status':attendance_report.status}
                 attendance_list_data.append(attendance_data)
         return attendance_list_data                         
+
 
 class AttendanceReport(models.Model):
     """
