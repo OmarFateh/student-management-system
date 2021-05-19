@@ -47,18 +47,25 @@ class UpdateStudentAdminForm(AddStudentForm):
     """
     Update Student Admin model form.
     """
+    photo = forms.FileField(
+        required=False,
+        widget=forms.FileInput(attrs={'class':'custom-file-input', 'id':'fileInputStudent', 'required': False, }))
+
     class Meta:
         model  = Student
         fields = ['course', 'photo', 'nationality', 'phone', 'address', 'gender', 'birth_date', 'session_year']
-        widgets = {'photo':forms.FileInput(
-                attrs={'class':'custom-file-input', 'id':'fileInputStudent'} 
-        )}
+        # widgets = {'photo':forms.FileInput(
+        #     attrs={'class':'custom-file-input', 'id':'fileInputStudent', 'required': False, } 
+        # )}
+
 
 class UpdateStudentForm(BaseAddStaffStudentForm):
     """
     Update Student model form.
     """
-    photo = forms.FileField(widget=forms.FileInput(attrs={'class':'custom-file-input', 'id':'fileInputStudent'}))
+    photo = forms.FileField(
+        required=False,
+        widget=forms.FileInput(attrs={'class':'custom-file-input', 'id':'fileInputStudent', 'required': False, }))
 
     class Meta:
         model  = Student

@@ -11,9 +11,10 @@ from attendance.models import Attendance, AttendanceReport
 from posts.models import Post
 from notifications.models import Notification
 from accounts.forms import UpdateUserForm
-from adminhod.staff.forms import UpdateStaffForm
 from posts.utils import paginate_posts
 from posts.forms import CommentForm
+from adminhod.staff.forms import UpdateStaffForm
+from feed.staff.views import staff_posts
 
 
 def staff_dashboard(request):
@@ -116,6 +117,13 @@ def staff_profile(request, staff_slug):
             if request.user == staff.user:
                 data['html_staff_sidebar_data'] = render_to_string('staff/dashboard_includes/staff_sidebar_data.html', {'user':staff.user})   
             data['html_staff_data'] = render_to_string('staff/includes/partial_staff_profile.html', {'staff':staff})   
+            # staff's posts
+            posts = staff_posts(request)
+            # comment form.
+            comment_form = CommentForm(auto_id=False)
+            data["html_post_list"] = render_to_string("posts/includes/partial_post_list.html", 
+                {"posts":posts, "request":request, "comment_form":comment_form}, 
+                request=request)
             return JsonResponse(data)
     else:
         staff_form = UpdateStaffForm(instance=staff)     

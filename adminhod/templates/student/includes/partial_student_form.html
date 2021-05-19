@@ -100,8 +100,6 @@
         {{ form.photo.errors }}
         <div class="input-group">
             <div class="custom-file">
-                <!-- <input type="file" class="custom-file-input" id="fileInputStudent" name="photo"
-                {% if not is_update %} required {% endif %}> -->
                 {{ form.photo }}
                 <label class="custom-file-label" for="fileInputStudent">
                     {% if form.instance.photo %}

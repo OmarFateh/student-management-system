@@ -12,12 +12,7 @@ def adminhod_image(instance, filename):
     """
     Upload the adminhod image into the path and return the uploaded image path.
     """
-    pic_extention = filename.split('.')[-1]
-    profile_pic_name = f'adminhod/{instance.user.full_name}/profile.{pic_extention}'
-    full_path = os.path.join(settings.MEDIA_ROOT, profile_pic_name)
-    if os.path.exists(full_path):
-        os.remove(full_path)
-    return profile_pic_name
+    return f'adminhod/{instance.user.full_name}/{filename}'
 
 
 class UserCommonInfo(models.Model):
@@ -31,8 +26,8 @@ class UserCommonInfo(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     slug = models.CharField(max_length=10, unique=True, null=True, blank=True)
     birth_date = models.DateField(null=True)
-    education = models.CharField(max_length=256, null=True, blank=True)
-    skills = models.CharField(max_length=256, null=True, blank=True)
+    education = models.TextField(null=True, blank=True)
+    skills = models.TextField(null=True, blank=True)
     nationality = CountryField()
     phone = models.CharField(max_length=17, null=True)
     address = models.CharField(max_length=256, null=True)

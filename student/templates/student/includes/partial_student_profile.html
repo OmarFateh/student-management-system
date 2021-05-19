@@ -41,10 +41,20 @@
         <p class="text-muted">{{ student.phone }}</p>
         <hr>
         <strong><i class="fas fa-book mr-1"></i> Education</strong>
-        <p class="text-muted">{{ student.education }}Lorem ipsum represents a long-held tradition for designers, typographers and the like. Some people hate it and argue for its demise, but others ignore the hate as they create awesome tools to help create filler text for everyone from bacon lovers to Charlie Sheen fans.</p>   
+        <p class="text-muted">
+            {% if student.education %}
+            {{ student.education }}
+            {% else %}
+            Lorem ipsum represents a long-held tradition for designers, typographers and the like. Some people hate it and argue for its demise, but others ignore the hate as they create awesome tools to help create filler text for everyone from bacon lovers to Charlie Sheen fans.</p>   
+            {% endif %}
         <hr>
         <strong><i class="fas fa-pencil-alt mr-1"></i> Skills</strong>
-        <p class="text-muted">{{ student.skills }}Lorem ipsum represents a long-held tradition for designers, typographers and the like. Some people hate it and argue for its demise, but others ignore the hate as they create awesome tools to help create filler text for everyone from bacon lovers to Charlie Sheen fans.</p>
+        <p class="text-muted">
+            {% if student.skills %}
+            {{ student.skills }}
+            {% else %}
+            Lorem ipsum represents a long-held tradition for designers, typographers and the like. Some people hate it and argue for its demise, but others ignore the hate as they create awesome tools to help create filler text for everyone from bacon lovers to Charlie Sheen fans.</p>
+            {% endif %}
     </div>
     <!-- /.card-body -->
 </div>

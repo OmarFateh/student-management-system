@@ -15,6 +15,7 @@ class DateInputWidget(forms.DateInput):
     input_type = 'date'
     attrs = {'class': 'form-control float-right', 'placeholder':'dd/mm/yyyy', 'required': True,}
 
+
 class BaseAddStaffStudentForm(forms.ModelForm):
     """
     Base add Staff Student model form.
@@ -68,22 +69,26 @@ class BaseAddStaffStudentForm(forms.ModelForm):
     )
     education = forms.CharField(
         label='', 
-        max_length=256,
         required=False,
-        widget=forms.TextInput(attrs={
+        widget=forms.Textarea(attrs={
             'class':'form-control', 
             'name':'education', 
             'placeholder':"Education",
+            'rows':'6', 
+            'style':"resize: none",
+            'required': False,
         })
     )
     skills = forms.CharField(
         label='', 
-        max_length=256,
         required=False,
-        widget=forms.TextInput(attrs={
+        widget=forms.Textarea(attrs={
             'class':'form-control', 
             'name':'skills', 
             'placeholder':"Skills",
+            'rows':'6', 
+            'style':"resize: none",
+            'required': False,
         })
     )
     
@@ -115,22 +120,30 @@ class AddStaffForm(BaseAddStaffStudentForm):
                 attrs={'class':'custom-file-input', 'id':'fileInputStaff', 'required': True, } 
         )}
 
+
 class UpdateStaffAdminForm(AddStaffForm):
     """
     Update Staff Admin model form.
     """
+    photo = forms.FileField(
+        required=False,
+        widget=forms.FileInput(attrs={'class':'custom-file-input', 'id':'fileInputStaff', 'required': False, }))
+
     class Meta:
         model  = Staff
         fields = ['photo', 'nationality', 'phone', 'address', 'gender', 'birth_date', 'recruitment_date']
-        widgets = {'photo':forms.FileInput(
-                attrs={'class':'custom-file-input', 'id':'fileInputStaff'} 
-        )}
+        # widgets = {'photo':forms.FileInput(
+        #     attrs={'class':'custom-file-input', 'id':'fileInputStaff', 'required': False, } 
+        # )}
+
 
 class UpdateStaffForm(BaseAddStaffStudentForm):
     """
     Update Staff model form.
     """
-    photo = forms.FileField(widget=forms.FileInput(attrs={'class':'custom-file-input', 'id':'fileInputStaff'}))
+    photo = forms.FileField(
+        required=False,
+        widget=forms.FileInput(attrs={'class':'custom-file-input', 'id':'fileInputStaff', 'required': False, }))
     
     class Meta:
         model  = Staff

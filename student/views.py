@@ -9,9 +9,10 @@ from feedback.models import FeedbackStudent
 from posts.models import Post
 from notifications.models import Notification
 from accounts.forms import UpdateUserForm
-from adminhod.student.forms import UpdateStudentForm
 from posts.utils import paginate_posts
 from posts.forms import CommentForm
+from adminhod.student.forms import UpdateStudentForm
+from feed.student.views import student_posts
 
 
 def student_dashboard(request):
@@ -109,6 +110,13 @@ def student_profile(request, student_slug):
             if request.user == student.user:
                 data['html_student_sidebar_data'] = render_to_string('student/dashboard_includes/student_sidebar_data.html', {'user':student.user})  
             data['html_student_data'] = render_to_string('student/includes/partial_student_profile.html', {'student':student})   
+            # student's posts
+            posts = student_posts(request)
+            # comment form.
+            comment_form = CommentForm(auto_id=False)
+            data["html_post_list"] = render_to_string("posts/includes/partial_post_list.html", 
+                {"posts":posts, "request":request, "comment_form":comment_form}, 
+                request=request)
             return JsonResponse(data)
     else:
         student_form = UpdateStudentForm(instance=student)     
