@@ -54,8 +54,8 @@ https://student-m-s.herokuapp.com/
 * A user can view his notifications
 
 ## User Credintials
-* Admin: - email--> ahmadmohamad@gmail.com  - password-->admin1600   - Mathematics admin
-* Staff: - email--> omarali@gmail.com  - password-->admin1600  - Algebra teacher
+* Admin(Mathematics admin): - email--> ahmadmohamad@gmail.com  - password-->admin1600  
+* Staff(Algebra teacher): - email--> omarali@gmail.com  - password-->admin1600  
 * Student: - email--> ahmadali@gmail.com  - password-->admin1600
 
 ## TODO
