@@ -3,36 +3,28 @@
 
 ## Table of contents
 * [Technologies](#technologies)
-* [Setup](#setup)
+* [Live](#live)
 * [Features](#features)
 * [User Credintials](#User-Credintials)
 * [TODO](#TODO)
 
 ## Technologies
 * Python 3.8
-* Django 3.0.8
+* Django 2.2.19
 * Ajax
 * JQuery
 * Chart.js
 
-## Setup
-The first thing to do is to clone the repository:  
-`$ git clone https://github.com/OmarFateh/student-management-system.git`  
-Setup project environment with virtualenv and pip.  
-`$ virtualenv project-env`  
-Activate the virtual environment  
-`$ source project-env/Scripts/activate`  
-Install all dependencies  
-`$ pip install -r requirements.txt`  
-Run the server  
-`py manage.py runserver`
+## Live
+https://student-m-s.herokuapp.com/
 
 ## Features
-* Authentication: Registeration, login, logout, change and reset password.
+* Authentication: Registeration, login(with email), logout, change and reset password.
 
 * Course Admin:  
       - add/view/remove student  
       - add/view/remove staff  
+      - When course admin adds student or staff, they get a random password, and in the first time they log in, they will get redirected to change their passwords.     
       - view attendance data  
       - add/view announcements  
       - view/reply feedback  
@@ -56,14 +48,15 @@ Run the server
       - send feedback  
 
 * A user can contact and view profile of all staff and students, who share the same course.
+* A user can search, filter and paginate all the data.
 * A user can add/update/delete a post to his community of the course.
 * A user can like, add/update/delete a comment and a reply to a post in his community of the course.
+* A user can view his notifications
 
 ## User Credintials
-* Admin: - email--> omar0@gmail.com  - password-->admin1600
-* Staff: - email--> ahmadali@gmail.com  - password-->admin1600
-* Student: - email--> ahmed2000@gmail.com  - password-->admin1600
+* Admin(Mathematics admin): - email--> ahmadmohamad@gmail.com  - password-->admin1600  
+* Staff(Algebra teacher): - email--> omarali@gmail.com  - password-->admin1600  
+* Student: - email--> ahmadali@gmail.com  - password-->admin1600
 
 ## TODO
 * Implement Direct Messages (DM)
-* Implement Notifications
