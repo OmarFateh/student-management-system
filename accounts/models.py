@@ -16,7 +16,7 @@ class UserManager(BaseUserManager):
             raise ValueError('Users must have a password')
         user_obj = self.model(email=self.normalize_email(email))
         user_obj.set_password(password)
-        user_obj.active = is_active
+        user_obj.is_active = is_active
         user_obj.staff_user = is_staff
         user_obj.superuser = is_superuser
         user_obj.user_type = user_type
@@ -51,7 +51,7 @@ class User(AbstractBaseUser):
 
     email = models.EmailField(max_length=255, unique=True)
     full_name = models.CharField(max_length=255)
-    active = models.BooleanField(default=True) # can login
+    is_active = models.BooleanField(default=True) # can login
     staff_user = models.BooleanField(default=False) # staff user non superuser
     superuser = models.BooleanField(default=False) # superuser
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -86,10 +86,6 @@ class User(AbstractBaseUser):
     @property
     def is_superuser(self):
         return self.superuser   
-
-    @property
-    def is_active(self):
-        return self.active
 
     @property
     def is_previously_logged_in(self):

@@ -2,6 +2,7 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.deprecation import MiddlewareMixin
 
+
 class RestrictionRolesMiddleWare(MiddlewareMixin):
     """
     Custom middleware to restirct user's roles.
@@ -80,7 +81,7 @@ class RestrictionRolesMiddleWare(MiddlewareMixin):
                     ]: 
                         return redirect("accounts:password-change")          
         else:
-            if request.path == reverse("accounts:login") or modulename in ['django.contrib.auth.views', 'django.contrib.admin.sites']:
+            if request.path == reverse("accounts:login") or modulename in ['accounts.decorators', 'django.contrib.auth.views', 'django.contrib.admin.sites']:
                 pass
-            else:    
+            else:  
                 return redirect("accounts:login")

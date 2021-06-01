@@ -85,6 +85,8 @@ def change_password(request):
         form = PasswordFieldsOnChangePassword(user_obj, request.POST)
         if form.is_valid():
             user = form.save()
+            # Updating the password logs out all other sessions for the user
+            # except the current one.
             update_session_auth_hash(request, user)  # Important!
             user_obj.previously_logged_in = True
             user_obj.save()

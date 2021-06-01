@@ -14,8 +14,8 @@ from .forms import AddCourseForm, AddSubjectForm
 def add_course_subject_form(request, form, template_name):
     """
     Take form and template name.
-    Add course for in case of course. 
-    Update subject for in case of subject.
+    Add course in case of course. 
+    Add subject in case of subject.
     """
     # check if the request method is post.
     if request.method == "POST":
@@ -67,7 +67,6 @@ def add_course_subject_form(request, form, template_name):
                 elif 'save' in request.POST:
                     # redirect to manage courses url.
                     return redirect('course:manage-course')
-
     context = {'form':form}
     return render(request, template_name, context)
 
