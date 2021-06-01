@@ -23,8 +23,8 @@ https://student-m-s.herokuapp.com/
 
 * Course Admin:  
       - add/view/remove student  
-      - add/view/remove staff 
-      - When course admin adds student or staff, they get a random password, and in the first time they log in, they will get redirected to change their passwords.   
+      - add/view/remove staff  
+      - When course admin adds student or staff, they get a random password, and in the first time they log in, they will get redirected to change their passwords.     
       - view attendance data  
       - add/view announcements  
       - view/reply feedback  
