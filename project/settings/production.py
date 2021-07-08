@@ -75,7 +75,7 @@ MIDDLEWARE = [
     'accounts.middlewares.RestrictionRolesMiddleWare',
 ]
 
-LOGIN_URL = 'login/'
+LOGIN_URL = '/login/'
 ROOT_URLCONF = 'project.urls'
 
 TEMPLATES = [

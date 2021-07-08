@@ -9,6 +9,7 @@ from feedback.models import FeedbackStaff
 from adminhod.utils import paginate
 from .utils import filter_staffs_feedbacks
 
+
 def add_feedback_staff(request):
     """
     Add staff feedback.
