@@ -19,7 +19,7 @@
 https://student-m-s.herokuapp.com/
 
 ## Features
-* Authentication: Registeration, login(with email), logout, change and reset password.
+* Authentication: Registration, login(with email), logout, change and reset password.
 
 * Course Admin:  
       - add/view/remove student  
