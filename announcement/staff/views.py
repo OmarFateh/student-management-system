@@ -21,7 +21,7 @@ def view_announcements_staff(request):
     # display all announcements of current staff's courses.
     announcements = Announcement.objects.filter(
         Q(adminhod__id__in=adminhod_ids_list)|
-        Q(staff__id__in=staff_ids_list) 
+        Q(staff__user__id__in=staff_ids_list) 
     ).distinct()
     # get current staff.
     staff = get_object_or_404(Staff, user__id=request.user.id)

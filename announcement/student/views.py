@@ -14,7 +14,7 @@ def view_announcements_student(request):
     # display all announcements of current student's course.
     announcements = Announcement.objects.filter(
         Q(adminhod=request.user.student.course.adminhod)|
-        Q(staff__id__in=staff_ids_list) 
+        Q(staff__user__id__in=staff_ids_list) 
     ).distinct()
     # update announcements from not seen to be seen. 
     Announcement.objects.announcements_updated(request.user, staff_ids_list, is_student=True)
