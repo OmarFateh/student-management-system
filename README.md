@@ -5,7 +5,7 @@
 * [Technologies](#technologies)
 * [Live](#live)
 * [Features](#features)
-* [User Credintials](#User-Credintials)
+* [User Credentials](#User-Credentials)
 * [TODO](#TODO)
 
 ## Technologies
@@ -19,7 +19,7 @@
 https://student-m-s.herokuapp.com/
 
 ## Features
-* Authentication: Registeration, login(with email), logout, change and reset password.
+* Authentication: Registration, login(with email), logout, change and reset password.
 
 * Course Admin:  
       - add/view/remove student  
@@ -33,7 +33,7 @@ https://student-m-s.herokuapp.com/
 * Staff:  
       - take student attendance  
       - view attendance data  
-      - view/update profile
+      - view/update profile  
       - add/view results  
       - add/view announcements  
       - send feedback  
@@ -53,7 +53,7 @@ https://student-m-s.herokuapp.com/
 * A user can like, add/update/delete a comment and a reply to a post in his community of the course.
 * A user can view his notifications
 
-## User Credintials
+## User Credentials
 * Admin(Mathematics admin): - email--> ahmadmohamad@gmail.com  - password-->admin1600  
 * Staff(Algebra teacher): - email--> omarali@gmail.com  - password-->admin1600  
 * Student: - email--> ahmadali@gmail.com  - password-->admin1600
