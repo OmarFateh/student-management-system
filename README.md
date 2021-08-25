@@ -5,8 +5,8 @@
 * [Technologies](#technologies)
 * [Live](#live)
 * [Features](#features)
-* [User Credentials](#User-Credentials)
-* [TODO](#TODO)
+* [User Credentials](#user-credentials)
+* [TODO](#todo)
 
 ## Technologies
 * Python 3.8
